@@ -1,21 +1,39 @@
-import * as React from 'react';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import AppLoading from 'expo-app-loading';
+import { ThemeProvider } from 'styled-components';
+
+import {
+  useFonts,
+  Roboto_300Light,
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+} from '@expo-google-fonts/roboto';
+
+import theme from './src/global/styles/theme';
+
+import { AppRoutes } from './src/routes/app.routes';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import Home from './src/screens/Home';
-import SplashAnimation from './src/screens/SplashAnimation';
-
-const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" screenOptions={{headerShown: false}}>
-        
-        <Stack.Screen name="SplashAnimation" component={SplashAnimation} />
-        <Stack.Screen name="Home" component={Home} />
+  const [fontsLoaded] = useFonts({
+    Roboto_300Light,
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Roboto_700Bold,
+  });
 
-      </Stack.Navigator>
-    </NavigationContainer>
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <StatusBar barStyle="light-content" />
+        <AppRoutes />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
