@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Dimensions} from "react-native";
 import { useNavigation, CommonActions } from '@react-navigation/core';
 import LottieView from 'lottie-react-native';
 
-import Animation from '../../assets/splash.json';
+import Animation from '../../../assets/splash.json';
 
 const size = Dimensions.get('window').width * 0.5;
 
