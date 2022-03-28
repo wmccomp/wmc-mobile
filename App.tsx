@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './src/screens/Home';
 import SplashAnimation from './src/screens/SplashAnimation';
+import ColorPicker from './src/screens/ColorPicker';
 
 const Stack = createNativeStackNavigator();
 
