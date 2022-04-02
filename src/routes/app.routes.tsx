@@ -42,7 +42,7 @@ export function AppRoutes() {
         component={Home}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <Feather name="home" size={size} color={color} />
+            <MaterialIcons name="home" size={size} color={color} />
           ),
         }}
       />
@@ -52,7 +52,7 @@ export function AppRoutes() {
         component={Home}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <Feather name="search" size={size} color={color} />
+            <MaterialIcons name="search" size={size} color={color} />
           ),
         }}
       />
