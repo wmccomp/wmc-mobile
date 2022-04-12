@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../routes/auth.routes';
 
 import {
   Container,
@@ -22,12 +25,24 @@ interface HeaderProps {
   title: string;
 }
 
+type RegisterScreenProps = StackNavigationProp<RootStackParamList, 'Dashboard'>;
+
 export function Header({ type, title }: HeaderProps) {
+  const navigation = useNavigation<RegisterScreenProps>();
   const [modalOpen, setModalOpen] = useState(false);
 
   console.log(modalOpen);
 
+  function handleLastScreen() {
+    if (title === 'Login' || title === 'Cadastro') {
+      navigation.navigate('Dashboard');
+    }
+  }
+
   function handleOpenModal() {
+    if (modalOpen === true) {
+      setModalOpen(false);
+    }
     setModalOpen(true);
   }
 
@@ -41,7 +56,7 @@ export function Header({ type, title }: HeaderProps) {
         {type === 'logo' ? (
           <Logo />
         ) : (
-          <BackButton onPress={handleCloseModal}>
+          <BackButton onPress={handleLastScreen}>
             <Icon name="arrow-back" />
           </BackButton>
         )}
