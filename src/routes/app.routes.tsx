@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -9,7 +9,7 @@ import { SplashScreen } from '../screens/SplashScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-export function AppRoutes() {
+const AppRoutes = () => {
   const theme = useTheme();
 
   return (
@@ -78,4 +78,6 @@ export function AppRoutes() {
       />
     </Navigator>
   );
-}
+};
+
+export default AppRoutes;

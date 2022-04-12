@@ -9,6 +9,7 @@ export default {
     shape: '#C4C4C4',
     title: '#737373',
 
+    blue: '#1567E3',
     white: '#FFFFFF',
     gray: '#F8F8F8',
     black: '#181818',
