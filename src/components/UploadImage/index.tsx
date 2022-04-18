@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Image, StyleSheet, Dimensions} from 'react-native';
+import { Text, View, Image, Dimensions} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { Button, NativeBaseProvider, Icon} from 'native-base';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
-const size = Dimensions.get('screen').width * 1;
+import {
+    Styles,
+    Title,
+    TextPage
+} from './styles';
 
 export default function UploadImage(){
 
@@ -25,10 +31,10 @@ export default function UploadImage(){
             aspect: [1, 1],
             quality: 1,
         });
-        console.log(result);
         if (!result.cancelled) {
             setImage(result);
         }
+        console.log(result);
     };
 
     if(IsGalleryPermission === false) {
@@ -36,16 +42,23 @@ export default function UploadImage(){
     }
     
     return(
-    <View style={Styles.container}>
-        <Button title="pick image from gallery" onPress={() => pickImage()} /> 
-        {image && <Image source={image} style={{width: size, height: size}} /> }
-    </View>
+        <NativeBaseProvider>
+            <View style={Styles.TextPosition}>
+                <TextPage>
+                    Selecione cor a partir de uma imagem da galeria!
+                </TextPage>
+
+                <MaterialCommunityIcons name="image-edit-outline" size={34} color="black" />
+                
+            </View>
+
+            <View style={Styles.ViewDefault}>
+                <Button onPress={() => pickImage()} style={Styles.ButtonUpload}
+                endIcon={<Icon as={Feather} name="upload" size={18} />}>
+                    <Title>SELECIONAR IMAGEM</Title>
+                </Button> 
+                {image && <Image source={image} style={Styles.Image} /> }
+            </View>
+        </NativeBaseProvider>
     );
 }
-
-const Styles = StyleSheet.create({
-    container: {
-        flex: 1, 
-        justifyContent: 'center'
-    }
-});

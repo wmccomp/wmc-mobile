@@ -11,6 +11,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@native-base/icons": "^0.0.11",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.2",
     "axios": "^0.26.1",
@@ -18,11 +19,15 @@
     "expo-image-picker": "~12.0.1",
     "expo-status-bar": "~1.2.0",
     "lottie-react-native": "5.0.1",
+    "native-base": "^3.4.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-responsive-fontsize": "^0.5.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
+    "react-native-size-matters": "^0.4.0",
+    "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
     "styled-components": "^5.3.5"
   },

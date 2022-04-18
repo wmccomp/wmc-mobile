@@ -1,9 +1,10 @@
-import React, {useEffect} from "react";
-import { StyleSheet, View, Text, Dimensions} from "react-native";
+import React, {useEffect} from 'react';
+import { View, Text, Dimensions } from 'react-native';
 import { useNavigation, CommonActions } from '@react-navigation/core';
 import LottieView from 'lottie-react-native';
 
 import Animation from '../../../assets/splash.json';
+import { Styles } from './styles';
 
 const size = Dimensions.get('window').width * 0.5;
 
@@ -21,16 +22,9 @@ export default function SplashAnimation(){
     }, [])
 
     return (
-        <View style={styles.container}>
+        <View style={Styles.container}>
             <LottieView source={Animation} style={{width: size, height: size}} 
                 autoPlay loop resizeMode='contain' />
         </View>
     );
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-});
