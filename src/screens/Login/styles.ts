@@ -1,57 +1,29 @@
 import styled from 'styled-components/native';
-
-import { RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
   align-items: center;
-  justify-content: center;
-`;
+  justify-content: flex-start;
 
-export const Content = styled.View`
-  align-items: center;
-  justify-content: space-between;
-  padding: ${RFValue(55)}px 0;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
 export const Title = styled.Text`
-  font-size: ${RFValue(48)}px;
+  font-size: ${RFValue(30)}px;
   font-family: ${({ theme }) => theme.fonts.light};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.title};
 
-  margin: 30px 0;
+  margin: 30px 0 40px;
 `;
 
-export const Descript = styled.Text`
-  text-align: center;
-  font-size: ${RFValue(18)}px;
-  font-family: ${({ theme }) => theme.fonts.light};
-  color: ${({ theme }) => theme.colors.black};
-`;
-
-export const ButtonWrapper = styled.View`
-  margin-top: 50px;
-`;
-
-export const LoginContainer = styled.View`
-  margin-top: 10px;
-  flex-direction: row;
-  justify-content: space-evenly;
+export const Form = styled.View`
   align-items: center;
+  justify-content: center;
 `;
 
-export const LoginText = styled.Text`
-  font-size: ${RFValue(18)}px;
-  font-family: ${({ theme }) => theme.fonts.medium};
-  color: ${({ theme }) => theme.colors.black};
-`;
-
-export const Pressable = styled.Pressable``;
-
-export const ButtonLogin = styled.Text`
-  font-size: ${RFValue(18)}px;
-  font-family: ${({ theme }) => theme.fonts.medium};
-  color: ${({ theme }) => theme.colors.blue};
+export const Fields = styled.View`
+  margin-bottom: 10px;
 `;
