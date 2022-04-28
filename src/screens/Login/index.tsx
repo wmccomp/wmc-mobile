@@ -47,7 +47,7 @@ export function Login() {
 
   async function handleLogin(form: Partial<FormData>) {
     try {
-      navigate('Listagem');
+      navigate('Home');
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível salvar!');

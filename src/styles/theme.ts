@@ -11,6 +11,7 @@ export default {
 
     blue: '#1567E3',
     white: '#FFFFFF',
+    white_ligth: '#F6F6F6',
     gray: '#F8F8F8',
     black: '#181818',
 

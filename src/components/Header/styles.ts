@@ -15,7 +15,7 @@ export const HeaderContent = styled.View`
   justify-content: space-between;
 
   background-color: #181818;
-  padding: 0 20px;
+  padding: 20px 20px 0;
 `;
 
 export const Title = styled.Text`
