@@ -15,7 +15,7 @@ export function SplashScreen() {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: 'Home' }],
+          routes: [{ name: 'Dashboard' }],
         })
       );
     }, 4000);
