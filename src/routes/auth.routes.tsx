@@ -1,12 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { SplashScreen } from '../screens/SplashScreen';
 import { Dashboard } from '../screens/Dashboard';
 import { Register } from '../screens/Register';
 import { Login } from '../screens/Login';
 import { Home } from '../screens/Home';
 
 export type RootStackParamList = {
+  SplashScreen: undefined;
   Dashboard: undefined;
   Register: undefined;
   Login: undefined;
@@ -21,6 +23,8 @@ const AuthRoutes: React.FC = () => (
       headerShown: false,
     }}
   >
+    <Screen name="SplashScreen" component={SplashScreen} />
+
     <Screen name="Dashboard" component={Dashboard} />
 
     <Screen name="Register" component={Register} />

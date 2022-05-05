@@ -48,7 +48,7 @@ export function Dashboard() {
       <ButtonWrapper>
         <Button title="REGISTRE-SE" onPress={handleRegister} />
         <LoginContainer>
-          <LoginText>Já tem uma conta?</LoginText>
+          <LoginText>Já tem uma conta? </LoginText>
           <Pressable onPress={handleLogin}>
             <ButtonLogin>Faça login</ButtonLogin>
           </Pressable>

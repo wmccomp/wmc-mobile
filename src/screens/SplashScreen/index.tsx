@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
-
 import { Container, Animation } from './styles';
 
 import LoadAnimation from '../../../assets/splash.json';
