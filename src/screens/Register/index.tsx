@@ -65,7 +65,7 @@ export function Register() {
 
   return (
     <>
-      <Header type="back" title="Cadastro" />
+      <Header type="back" title="Cadastro" option={false} />
       <ScrollView>
         <Container>
           <Logo />

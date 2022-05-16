@@ -1,11 +1,11 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid';
 import { useForm } from 'react-hook-form';
+import { ScrollView } from 'react-native-gesture-handler';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import uuid from 'react-native-uuid';
 import {
   useNavigation,
   NavigationProp,
@@ -18,24 +18,29 @@ import { Button } from '../../components/Form/Button';
 
 import Logo from '../../assets/logo-large.svg';
 
-import { Container, Title, Form, Fields } from './styles';
+import { Container, Photo, Form, Fields } from './styles';
 
 interface FormData {
   name: string;
   email: string;
-  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }
 
 const schema = Yup.object().shape({
+  name: Yup.string().required('O nome é obrigatorio!'),
   email: Yup.string()
     .required('O email é obrigatorio!')
     .email('O email precisa ser válido.'),
-  password: Yup.string()
+  newPassword: Yup.string()
+    .required('O password é obrigatorio!')
+    .min(4, 'A senha é muito curta, deve ter no mínimo 4 caracteres.'),
+  confirmNewPassword: Yup.string()
     .required('O password é obrigatorio!')
     .min(4, 'A senha é muito curta, deve ter no mínimo 4 caracteres.'),
 });
 
-export function Login() {
+export function Settings() {
   const {
     control,
     handleSubmit,
@@ -45,7 +50,16 @@ export function Login() {
 
   const { navigate }: NavigationProp<ParamListBase> = useNavigation();
 
-  async function handleLogin(form: Partial<FormData>) {
+  async function handleRegister(form: Partial<FormData>) {
+    const newUser = {
+      id: String(uuid.v4()),
+      name: form.name,
+      email: form.email,
+      password: form.newPassword,
+      pconfirmPassword: form.confirmNewPassword,
+      date: new Date(),
+    };
+
     try {
       navigate('Listagem');
     } catch (error) {
@@ -56,14 +70,20 @@ export function Login() {
 
   return (
     <>
-      <Header type="back" title="Cadastro" option={false} />
+      <Header type="back" title="Configurações" option={false} />
       <ScrollView>
         <Container>
-          <Logo />
-          <Title>Login</Title>
+          <Photo name="account-circle" />
 
           <Form>
             <Fields>
+              <InputForm
+                name="name"
+                control={control}
+                placeholder="Nome"
+                keyboardType="default"
+                error={errors.name && errors.name.message}
+              />
               <InputForm
                 name="email"
                 control={control}
@@ -72,15 +92,24 @@ export function Login() {
                 error={errors.email && errors.email.message}
               />
               <InputForm
-                name="password"
+                name="newPassword"
                 control={control}
                 placeholder="Senha"
                 keyboardType="default"
-                error={errors.password && errors.password.message}
+                error={errors.newPassword && errors.newPassword.message}
+              />
+              <InputForm
+                name="confirmNewPassword"
+                control={control}
+                placeholder="Confirmar Senha"
+                keyboardType="default"
+                error={
+                  errors.confirmNewPassword && errors.confirmNewPassword.message
+                }
               />
             </Fields>
 
-            <Button title="LOGAR" onPress={handleSubmit(handleLogin)} />
+            <Button title="PRONTO" onPress={handleSubmit(handleRegister)} />
           </Form>
         </Container>
       </ScrollView>

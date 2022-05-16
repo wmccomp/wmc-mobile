@@ -7,6 +7,8 @@ export default {
     attention_light: 'rgba(255,89,89,0.5)',
 
     shape: '#C4C4C4',
+    shape_ligth: '#E8E8E8',
+
     title: '#737373',
 
     blue: '#1567E3',

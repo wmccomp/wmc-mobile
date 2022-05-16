@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { Home } from '../screens/Home';
 import { SplashScreen } from '../screens/SplashScreen';
+import { SearchPalette } from '../screens/SearchPalette';
+import { Settings } from '../screens/Settings';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -48,8 +50,18 @@ const AppRoutes = () => {
       />
 
       <Screen
-        name="Pesquisar"
-        component={Home}
+        name="Settings"
+        component={Settings}
+        options={{
+          // Remover BottomTabNavigator da tela SplashScreen
+          tabBarButton: () => null,
+          tabBarStyle: { display: 'none' },
+        }}
+      />
+
+      <Screen
+        name="SearchPalette"
+        component={SearchPalette}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="search" size={size} color={color} />

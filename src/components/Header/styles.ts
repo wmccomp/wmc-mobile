@@ -28,6 +28,10 @@ export const Title = styled.Text`
 
 export const OptionButton = styled(TouchableOpacity)``;
 
+export const NoOptionButton = styled(TouchableOpacity)`
+  opacity: 0;
+`;
+
 export const Icon = styled(MaterialIcons)`
   color: ${({ theme }) => theme.colors.white};
   font-size: ${RFValue(30)}px;
@@ -65,6 +69,8 @@ export const Name = styled.Text`
 export const Photo = styled(MaterialIcons)`
   font-size: ${RFValue(120)}px;
 `;
+
+export const ButtonConfig = styled(TouchableOpacity)``;
 
 export const Config = styled.Text``;
 
