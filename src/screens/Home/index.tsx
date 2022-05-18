@@ -6,9 +6,9 @@ import { Container, Title } from './styles';
 export function Home() {
   return (
     <>
-      <Header type="logo" title="Where’s My Color?" />
+      <Header type="logo" title="Where’s My Color?" option={true} />
       <Container>
-        <Title>Wheres My Color Mobile Init!</Title>
+        <Title>Minhas paletas</Title>
       </Container>
     </>
   );

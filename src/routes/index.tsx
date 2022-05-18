@@ -6,7 +6,7 @@ import AppRoutes from './app.routes';
 
 const Routes = () => (
   <NavigationContainer>
-    <AuthRoutes />
+    <AppRoutes />
   </NavigationContainer>
 );
 
