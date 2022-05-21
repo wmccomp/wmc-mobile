@@ -17,11 +17,11 @@ export const Content = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-size: ${RFValue(48)}px;
+  font-size: ${RFValue(44)}px;
   font-family: ${({ theme }) => theme.fonts.light};
   color: ${({ theme }) => theme.colors.black};
 
-  margin: 30px 0;
+  margin: 30px 10px;
 `;
 
 export const Descript = styled.Text`

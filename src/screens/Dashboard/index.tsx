@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/auth.routes';
 
-import { Header } from '../../components/Header';
 import { Button } from '../../components/Form/Button';
 
 import Logo from '../../assets/logo.svg';
@@ -37,11 +36,11 @@ export function Dashboard() {
   return (
     <Container>
       <Content>
-        <Logo />
+        <Logo width={80} height={80} />
         <Title>Wheres My Color!</Title>
         <Descript>
-          A melhor maneira de guardar as suas {'\n'} paletas de cores de forma
-          rápida e priátca.
+          A melhor maneira de guardar as suas {'\n'}
+          paletas de cores de forma rápida e priátca
         </Descript>
       </Content>
 

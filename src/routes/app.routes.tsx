@@ -4,10 +4,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Home } from '../screens/Home';
 import { SplashScreen } from '../screens/SplashScreen';
-import { SearchPalette } from '../screens/SearchPalette';
+import { Home } from '../screens/Home';
 import { Settings } from '../screens/Settings';
+import { SearchPalette } from '../screens/SearchPalette';
+import { MyPalettes } from '../screens/MyPalettes';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -70,8 +71,8 @@ const AppRoutes = () => {
       />
 
       <Screen
-        name="Resumo"
-        component={Home}
+        name="MyPalettes"
+        component={MyPalettes}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="palette" size={size} color={color} />

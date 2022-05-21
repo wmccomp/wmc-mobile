@@ -51,12 +51,14 @@ export function Header({ type, title, option }: HeaderProps) {
   }
 
   function handleSettings() {
+    handleCloseModal();
+
     navigate('Settings');
   }
 
   function handleGoBack() {
     if (title === 'Login' || title === 'Cadastro') {
-      navigateAuth.navigate('Dashboard');
+      navigateAuth.goBack();
     }
 
     if (title === 'Configurações') {

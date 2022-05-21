@@ -14,6 +14,7 @@ import {
 import theme from './src/global/styles/theme';
 
 import Routes from './src/routes';
+import { LoginProvider } from './src/context/auth';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,9 +29,14 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <StatusBar barStyle="light-content" />
-      <Routes />
-    </ThemeProvider>
+    <LoginProvider>
+      <ThemeProvider theme={theme}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={theme.colors.black}
+        />
+        <Routes />
+      </ThemeProvider>
+    </LoginProvider>
   );
 }
