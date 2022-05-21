@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/auth.routes';
@@ -25,6 +25,7 @@ import {
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
+import { LoginContext } from '../../context/auth';
 
 interface HeaderProps {
   type: 'logo' | 'back';
@@ -35,9 +36,10 @@ interface HeaderProps {
 type AuthScreenProps = StackNavigationProp<RootStackParamList, 'Dashboard'>;
 
 export function Header({ type, title, option }: HeaderProps) {
+  const [modalOpen, setModalOpen] = useState(false);
   const { navigate }: NavigationProp<ParamListBase> = useNavigation();
   const navigateAuth = useNavigation<AuthScreenProps>();
-  const [modalOpen, setModalOpen] = useState(false);
+  const { logOut } = useContext(LoginContext);
 
   function handleOpenModal() {
     if (modalOpen === true) {
@@ -54,6 +56,10 @@ export function Header({ type, title, option }: HeaderProps) {
     handleCloseModal();
 
     navigate('Settings');
+  }
+
+  function handleLogout() {
+    logOut();
   }
 
   function handleGoBack() {
@@ -102,7 +108,7 @@ export function Header({ type, title, option }: HeaderProps) {
           <ButtonConfig>
             <Config onPress={handleSettings}>Configuracoes</Config>
           </ButtonConfig>
-          <LogOut>Sair</LogOut>
+          <LogOut onPress={handleLogout}>Sair</LogOut>
         </ModalContainer>
       </Modal>
     </Container>
