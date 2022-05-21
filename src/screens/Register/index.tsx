@@ -1,66 +1,53 @@
-import React from 'react';
-import { Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
+import { wmcApi } from '../../api';
+import { AxiosResponse } from 'axios';
+import md5 from 'md5';
 import {
   useNavigation,
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
-import uuid from 'react-native-uuid';
 
 import { Header } from '../../components/Header';
-import { InputForm } from '../../components/Form/InpuForm';
+import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
 
 import Logo from '../../assets/logo-large.svg';
 
 import { Container, Title, Form, Fields } from './styles';
-import { useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native-gesture-handler';
 
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
-}
-
-const schema = Yup.object().shape({
-  name: Yup.string().required('O nome é obrigatorio!'),
-  email: Yup.string()
-    .required('O email é obrigatorio!')
-    .email('O email precisa ser válido.'),
-  password: Yup.string()
-    .required('O password é obrigatorio!')
-    .min(4, 'A senha é muito curta, deve ter no mínimo 4 caracteres.'),
-});
+const hashEmail = (email: string) => md5(email);
 
 export function Register() {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const { navigate }: NavigationProp<ParamListBase> = useNavigation();
 
-  async function handleRegister(form: Partial<FormData>) {
-    const newUser = {
-      id: String(uuid.v4()),
-      name: form.name,
-      email: form.email,
-      password: form.password,
-      date: new Date(),
-    };
+  async function handleRegister() {
+    wmcApi
+      .post('user/create', {
+        username,
+        email,
+        password,
+        profilePicture: `https://www.gravatar.com/avatar/${hashEmail(
+          email
+        )}.png?s=100&d=identicon`,
+      })
+      .then(({ status }: AxiosResponse) => {
+        if (status === 201) {
+          setUsername('');
+          setEmail('');
+          setPassword('');
+        }
 
-    try {
-      navigate('Listagem');
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Não foi possível salvar!');
-    }
+        navigate('Login');
+      })
+      .catch((err) => {
+        console.timeLog(err.response.message);
+      });
   }
 
   return (
@@ -73,30 +60,29 @@ export function Register() {
 
           <Form>
             <Fields>
-              <InputForm
-                name="name"
-                control={control}
+              <Input
                 placeholder="Nome"
-                keyboardType="default"
-                error={errors.name && errors.name.message}
+                defaultValue=""
+                value={username}
+                onChangeText={(value) => setUsername(value)}
               />
-              <InputForm
-                name="email"
-                control={control}
+              <Input
                 placeholder="Email"
                 keyboardType="email-address"
-                error={errors.email && errors.email.message}
+                defaultValue=""
+                value={email}
+                onChangeText={(value) => setEmail(value)}
               />
-              <InputForm
-                name="password"
-                control={control}
+              <Input
+                secureTextEntry={true}
                 placeholder="Senha"
-                keyboardType="default"
-                error={errors.password && errors.password.message}
+                defaultValue=""
+                value={password}
+                onChangeText={(value) => setPassword(value)}
               />
             </Fields>
 
-            <Button title="CADASTRAR" onPress={handleSubmit(handleRegister)} />
+            <Button title="CADASTRAR" onPress={handleRegister} />
           </Form>
         </Container>
       </ScrollView>

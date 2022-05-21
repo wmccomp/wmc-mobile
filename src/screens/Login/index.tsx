@@ -1,53 +1,29 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid';
-import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  useNavigation,
-  NavigationProp,
-  ParamListBase,
-} from '@react-navigation/native';
 
-import { Header } from '../../components/Header';
-import { InputForm } from '../../components/Form/InpuForm';
-import { Button } from '../../components/Form/Button';
+import { LoginContext } from '../../context/auth';
 
 import Logo from '../../assets/logo-large.svg';
 
+import { Header } from '../../components/Header';
+import { Input } from '../../components/Form/Input';
+import { Button } from '../../components/Form/Button';
+
 import { Container, Title, Form, Fields } from './styles';
 
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
-}
-
-const schema = Yup.object().shape({
-  email: Yup.string()
-    .required('O email é obrigatorio!')
-    .email('O email precisa ser válido.'),
-  password: Yup.string()
-    .required('O password é obrigatorio!')
-    .min(4, 'A senha é muito curta, deve ter no mínimo 4 caracteres.'),
-});
-
 export function Login() {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const { navigate }: NavigationProp<ParamListBase> = useNavigation();
+  const { logIn } = useContext(LoginContext);
 
-  async function handleLogin(form: Partial<FormData>) {
+  async function handleLogin() {
     try {
-      navigate('Listagem');
+      logIn({
+        email: email,
+        password: password,
+      });
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível salvar!');
@@ -56,7 +32,7 @@ export function Login() {
 
   return (
     <>
-      <Header type="back" title="Cadastro" option={false} />
+      <Header type="back" title="Login" option={false} />
       <ScrollView>
         <Container>
           <Logo />
@@ -64,23 +40,21 @@ export function Login() {
 
           <Form>
             <Fields>
-              <InputForm
-                name="email"
-                control={control}
+              <Input
                 placeholder="Email"
                 keyboardType="email-address"
-                error={errors.email && errors.email.message}
+                value={email}
+                onChangeText={(value) => setEmail(value)}
               />
-              <InputForm
-                name="password"
-                control={control}
+              <Input
+                secureTextEntry={true}
                 placeholder="Senha"
-                keyboardType="default"
-                error={errors.password && errors.password.message}
+                value={password}
+                onChangeText={(value) => setPassword(value)}
               />
             </Fields>
 
-            <Button title="LOGAR" onPress={handleSubmit(handleLogin)} />
+            <Button title="ENTRAR" onPress={handleLogin} />
           </Form>
         </Container>
       </ScrollView>
