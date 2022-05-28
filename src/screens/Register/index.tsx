@@ -16,6 +16,8 @@ import { Button } from '../../components/Form/Button';
 import Logo from '../../assets/logo-large.svg';
 
 import { Container, Title, Form, Fields } from './styles';
+import { Alert } from 'react-native';
+import { Load } from '../../components/Load';
 
 const hashEmail = (email: string) => md5(email);
 
@@ -23,10 +25,25 @@ export function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const { navigate }: NavigationProp<ParamListBase> = useNavigation();
 
+  function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
   async function handleRegister() {
+    if (validateEmail(email) === false) {
+      return Alert.alert('Digite um email válido!');
+    }
+
+    if (password.length <= 5) {
+      return Alert.alert('Digite um password com mais de 6 caracteres!');
+    }
+
     wmcApi
       .post('user/create', {
         username,
@@ -49,6 +66,10 @@ export function Register() {
         console.timeLog(err.response.message);
       });
   }
+
+  const displaySuccess = () => {
+    if (success) return Alert.alert('Usuário criado com sucesso!');
+  };
 
   return (
     <>
@@ -82,7 +103,13 @@ export function Register() {
               />
             </Fields>
 
-            <Button title="CADASTRAR" onPress={handleRegister} />
+            {displaySuccess()}
+
+            {loading ? (
+              <Load />
+            ) : (
+              <Button title="CADASTRAR" onPress={handleRegister} />
+            )}
           </Form>
         </Container>
       </ScrollView>

@@ -25,5 +25,7 @@ export const Form = styled.View`
 `;
 
 export const Fields = styled.View`
+  align-items: center;
+  justify-content: center;
   margin-bottom: 10px;
 `;
