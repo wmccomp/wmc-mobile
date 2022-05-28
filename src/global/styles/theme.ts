@@ -12,6 +12,7 @@ export default {
     title: '#737373',
 
     blue: '#1567E3',
+    blue_light: '#15AAE3',
     white: '#FFFFFF',
     gray: '#F8F8F8',
     black: '#181818',

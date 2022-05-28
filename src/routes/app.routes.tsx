@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -44,6 +44,7 @@ const AppRoutes = () => {
         name="Home"
         component={Home}
         options={{
+          tabBarActiveTintColor: theme.colors.blue_light,
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="home" size={size} color={color} />
           ),
@@ -64,6 +65,7 @@ const AppRoutes = () => {
         name="SearchPalette"
         component={SearchPalette}
         options={{
+          tabBarActiveTintColor: theme.colors.blue_light,
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="search" size={size} color={color} />
           ),
@@ -74,6 +76,7 @@ const AppRoutes = () => {
         name="MyPalettes"
         component={MyPalettes}
         options={{
+          tabBarActiveTintColor: theme.colors.blue_light,
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="palette" size={size} color={color} />
           ),
@@ -84,8 +87,13 @@ const AppRoutes = () => {
         name="Lib"
         component={Home}
         options={{
+          tabBarActiveTintColor: theme.colors.blue_light,
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name="border-color" size={size} color={color} />
+            <MaterialCommunityIcons
+              name="select-color"
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
