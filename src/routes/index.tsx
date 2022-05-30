@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { LoginContext } from '../context/auth';
 
 import AuthRoutes from './auth.routes';
-import AppRoutes from './app.routes';
+import AppStack from './app-stack.routes';
 
 const Routes = () => {
   const { token } = useContext(LoginContext);
@@ -12,7 +12,7 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      {token ? <AppRoutes /> : <AuthRoutes />}
+      {token ? <AppStack /> : <AuthRoutes />}
     </NavigationContainer>
   );
 };
