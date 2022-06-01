@@ -57,6 +57,8 @@ export function Login() {
               {/* {defaultError && <InputError title={defaultError} />} */}
 
               <Input
+                editable={!loading}
+                selectTextOnFocus={!loading}
                 placeholder="Email"
                 keyboardType="email-address"
                 value={email}
