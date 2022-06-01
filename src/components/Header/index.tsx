@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Modal } from 'react-native';
+import { Modal, TouchableWithoutFeedback } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/auth.routes';
 import {
@@ -22,6 +22,7 @@ import {
   ButtonConfig,
   Config,
   LogOut,
+  CloseModalArea,
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
@@ -96,19 +97,23 @@ export function Header({ type, title, option }: HeaderProps) {
         )}
       </HeaderContent>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalOpen}
         onRequestClose={handleCloseModal}>
-        <ModalContainer>
-          <Name>Rafael Tavares</Name>
+        <CloseModalArea onPress={handleCloseModal}>
+          <TouchableWithoutFeedback>
+            <ModalContainer>
+              <Name>Rafael Tavares</Name>
 
-          <Photo name="account-circle" />
-          <ButtonConfig>
-            <Config onPress={handleSettings}>Configuracoes</Config>
-          </ButtonConfig>
-          <LogOut onPress={handleLogout}>Sair</LogOut>
-        </ModalContainer>
+              <Photo name="account-circle" />
+              <ButtonConfig>
+                <Config onPress={handleSettings}>Configuracoes</Config>
+              </ButtonConfig>
+              <LogOut onPress={handleLogout}>Sair</LogOut>
+            </ModalContainer>
+          </TouchableWithoutFeedback>
+        </CloseModalArea>
       </Modal>
     </Container>
   );
