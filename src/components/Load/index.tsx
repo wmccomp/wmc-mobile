@@ -5,11 +5,5 @@ import { useTheme } from 'styled-components';
 export function Load() {
   const theme = useTheme();
 
-  return (
-    <ActivityIndicator
-      color={theme.colors.gray}
-      size="large"
-      style={{ flex: 1 }}
-    />
-  );
+  return <ActivityIndicator color={theme.colors.pink} size="large" />;
 }

@@ -99,8 +99,7 @@ export function Header({ type, title, option }: HeaderProps) {
         animationType="slide"
         transparent={true}
         visible={modalOpen}
-        onRequestClose={handleCloseModal}
-      >
+        onRequestClose={handleCloseModal}>
         <ModalContainer>
           <Name>Rafael Tavares</Name>
 

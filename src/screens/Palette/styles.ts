@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.ScrollView`
+export const PaletteContainer = styled.View`
   flex: 1;
 `;

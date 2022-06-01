@@ -16,9 +16,9 @@ const AppStack: React.FC = () => (
     screenOptions={{
       headerShown: false,
     }}>
-    <Screen name="Palette" component={Palette} />
-
     <Screen name="MainHome" component={AppRoutes} />
+
+    <Screen name="Palette" component={Palette} />
   </Navigator>
 );
 

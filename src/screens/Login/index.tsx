@@ -40,14 +40,7 @@ export function Login() {
 
     logIn({ email, password }).catch((error) => {
       setLoading(false);
-      switch (error.response.data.message) {
-        case 'Theres no user with this email!':
-          return setInvalidEmail(true);
-        case 'Incorrect password!':
-          return setInvalidPassword(true);
-        default:
-          return setDefaultError(error.response.data.message);
-      }
+      Alert.alert('Erro', error.response.data.message);
     });
   }
 

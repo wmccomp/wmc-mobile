@@ -1,7 +1,14 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { css } from 'styled-components';
+import { TouchableOpacity } from 'react-native';
 
-export const Container = styled(RectButton)`
+interface IContainerProps {
+  bottom: number;
+  right: number;
+}
+
+export const Container = styled(TouchableOpacity)`
   width: 70px;
   height: 70px;
 
@@ -11,5 +18,9 @@ export const Container = styled(RectButton)`
   background-color: #156ce3;
 
   border-radius: 35px;
-  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  ${({ bottom, right }: IContainerProps) => css`
+    bottom: ${bottom}px;
+    right: ${right}px;
+  `};
 `;

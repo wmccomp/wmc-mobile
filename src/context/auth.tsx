@@ -36,7 +36,7 @@ export function LoginProvider({ children }: LoginProviderProps) {
       logIn,
       logOut,
     }),
-    [token]
+    [token],
   );
 
   return (
