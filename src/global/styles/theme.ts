@@ -10,6 +10,8 @@ export default {
     shape_ligth: '#E8E8E8',
 
     title: '#737373',
+    pink: '#E11D86',
+    yellow: '#F1E72A',
 
     blue: '#1567E3',
     blue_light: '#15AAE3',
