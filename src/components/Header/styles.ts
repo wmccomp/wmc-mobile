@@ -40,6 +40,16 @@ export const Icon = styled(MaterialIcons)`
 `;
 export const BackButton = styled(TouchableOpacity)``;
 
+export const CloseModalArea = styled(TouchableOpacity)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 0 ${RFValue(20)}px;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ModalContainer = styled.View`
   width: 80%;
   height: 300px;
