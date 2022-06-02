@@ -15,6 +15,8 @@ import {
 
 import Logo from '../../assets/logo.svg';
 import { PreviewUserProfile } from '../PreviewUserProfile/inde';
+import { AppRoutesTabParamList } from '../../routes/app.routes';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 interface HeaderProps {
   type: 'logo' | 'back';
@@ -22,11 +24,13 @@ interface HeaderProps {
   option: boolean;
 }
 
-type AuthScreenProps = StackNavigationProp<RootStackParamList, 'Dashboard'>;
+type AuthScreenProps = StackNavigationProp<RootStackParamList>;
+type BottomTabScreenProps = BottomTabNavigationProp<AppRoutesTabParamList>;
 
 export function Header({ type, title, option }: HeaderProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const navigateAuth = useNavigation<AuthScreenProps>();
+  const navigateApp = useNavigation<BottomTabScreenProps>();
 
   function handleOpenModal() {
     if (modalOpen === true) {
@@ -46,6 +50,10 @@ export function Header({ type, title, option }: HeaderProps) {
 
     if (title === 'Configurações') {
       navigateAuth.navigate('Home');
+    }
+
+    if (title === 'Paleta') {
+      navigateApp.navigate('MyPalettes');
     }
   }
 
