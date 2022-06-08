@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { wmcApi } from '../../api';
+import { AddPalette } from '../../components/AddPalette';
 import { ColorCard } from '../../components/ColorCard';
+import { FloatButton } from '../../components/FloatButton';
 import { PalettePreview } from '../../components/PalettePreview';
 import { LoginContext } from '../../context/auth';
 
@@ -20,8 +22,11 @@ type TUserPalettes = {
 }[];
 
 export function MyPalettes() {
+  const [showAddPalette, setShowAddPalette] = useState(false);
   const [palettes, setPalettes] = useState<TUserPalettes>([] as TUserPalettes);
   const { token } = useContext(LoginContext);
+
+  const closeModal = () => setShowAddPalette(false);
   useEffect(() => {
     wmcApi
       .get('user/palettes', {
@@ -37,12 +42,20 @@ export function MyPalettes() {
       });
   }, []);
   return (
-    <ContainerScroll>
+    <>
+      <AddPalette onClose={closeModal} visible={showAddPalette} />
       <Container>
-        {palettes.map((palette) => (
-          <PalettePreview palette={palette} />
-        ))}
+        <ContainerScroll>
+          {palettes.map((palette) => (
+            <PalettePreview key={palette._id} palette={palette} />
+          ))}
+        </ContainerScroll>
+        <FloatButton
+          bottom={15}
+          right={15}
+          onPress={() => setShowAddPalette(true)}
+        />
       </Container>
-    </ContainerScroll>
+    </>
   );
 }

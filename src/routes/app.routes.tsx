@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Platform } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import { SplashContext } from '../context/splash';
 import { SplashScreen } from '../screens/SplashScreen';
 import { Home } from '../screens/Home';
 import { Settings } from '../screens/Settings';
@@ -23,6 +24,7 @@ const { Navigator, Screen } = createBottomTabNavigator<AppRoutesTabParamList>();
 
 const AppRoutes = () => {
   const theme = useTheme();
+  const { showSplash } = useContext(SplashContext);
 
   return (
     <Navigator
@@ -38,14 +40,16 @@ const AppRoutes = () => {
           backgroundColor: theme.colors.black,
         },
       }}>
-      <Screen
-        name="SplashScreen"
-        component={SplashScreen}
-        options={{
-          tabBarButton: () => null,
-          tabBarStyle: { display: 'none' },
-        }}
-      />
+      {showSplash && (
+        <Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarStyle: { display: 'none' },
+          }}
+        />
+      )}
 
       <Screen
         name="Home"

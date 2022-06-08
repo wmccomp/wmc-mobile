@@ -12,7 +12,7 @@ export function Palette() {
 
   return (
     <>
-      <Header type="back" title="Paleta" option={true} />
+      <Header type="back" title={palette.name} option={true} paletteScreen />
       <PaletteContainer>
         <FloatButton bottom={15} right={15} onPress={() => {}} />
       </PaletteContainer>

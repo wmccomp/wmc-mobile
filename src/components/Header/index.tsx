@@ -21,13 +21,14 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 interface HeaderProps {
   type: 'logo' | 'back';
   title: string;
+  paletteScreen?: boolean;
   option: boolean;
 }
 
 type AuthScreenProps = StackNavigationProp<RootStackParamList>;
 type BottomTabScreenProps = BottomTabNavigationProp<AppRoutesTabParamList>;
 
-export function Header({ type, title, option }: HeaderProps) {
+export function Header({ type, title, option, paletteScreen }: HeaderProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const navigateAuth = useNavigation<AuthScreenProps>();
   const navigateApp = useNavigation<BottomTabScreenProps>();
@@ -52,7 +53,7 @@ export function Header({ type, title, option }: HeaderProps) {
       navigateAuth.navigate('Home');
     }
 
-    if (title === 'Paleta') {
+    if (paletteScreen) {
       navigateApp.navigate('MyPalettes');
     }
   }
