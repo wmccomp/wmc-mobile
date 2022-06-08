@@ -4,6 +4,7 @@ import { wmcApi } from '../../api';
 import { AddPalette } from '../../components/AddPalette';
 import { ColorCard } from '../../components/ColorCard';
 import { FloatButton } from '../../components/FloatButton';
+import { Header } from '../../components/Header';
 import { PalettePreview } from '../../components/PalettePreview';
 import { LoginContext } from '../../context/auth';
 
@@ -43,6 +44,7 @@ export function MyPalettes() {
   }, []);
   return (
     <>
+      <Header type="logo" title="Where's My Color?" option={true} />
       <AddPalette onClose={closeModal} visible={showAddPalette} />
       <Container>
         <ContainerScroll>
