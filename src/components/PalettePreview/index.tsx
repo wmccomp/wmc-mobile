@@ -6,7 +6,7 @@ import {
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { AppStackParamList } from '../../routes/app-stack.routes';
 import { ColorCard } from '../ColorCard';
-import { PaletteContainer, PaletteName } from './styles';
+import { PaletteContainer, PaletteName, SubMessage } from './styles';
 
 interface IPalette {
   colors: any[];
@@ -39,7 +39,13 @@ export function PalettePreview({ palette }: IPalettePreviewProps) {
       <TouchableOpacity onPress={openPalette}>
         <PaletteName>{palette.name}</PaletteName>
       </TouchableOpacity>
-      <FlatList data={palette.colors} horizontal renderItem={renderItem} />
+      {palette.colors.length ? (
+        <FlatList data={palette.colors} horizontal renderItem={renderItem} />
+      ) : (
+        <TouchableOpacity onPress={openPalette}>
+          <SubMessage>Clique e adicione uma cor.</SubMessage>
+        </TouchableOpacity>
+      )}
     </PaletteContainer>
   );
 }
