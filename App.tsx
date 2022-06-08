@@ -1,4 +1,5 @@
 import React from 'react';
+import Toast from 'react-native-toast-message';
 import { StatusBar } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
@@ -36,6 +37,7 @@ export default function App() {
           backgroundColor={theme.colors.black}
         />
         <Routes />
+        <Toast />
       </ThemeProvider>
     </LoginProvider>
   );

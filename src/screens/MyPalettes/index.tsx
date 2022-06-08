@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { wmcApi } from '../../api';
+import { ColorCard } from '../../components/ColorCard';
+import { PalettePreview } from '../../components/PalettePreview';
 import { LoginContext } from '../../context/auth';
 
-import { Container } from './styles';
+import { Container, ContainerScroll } from './styles';
 
 type TUserPalettes = {
   colors: any[];
@@ -35,12 +37,12 @@ export function MyPalettes() {
       });
   }, []);
   return (
-    <Container>
-      {palettes.map(({ _id, name }) => (
-        <View key={_id}>
-          <Text>{name}</Text>
-        </View>
-      ))}
-    </Container>
+    <ContainerScroll>
+      <Container>
+        {palettes.map((palette) => (
+          <PalettePreview palette={palette} />
+        ))}
+      </Container>
+    </ContainerScroll>
   );
 }

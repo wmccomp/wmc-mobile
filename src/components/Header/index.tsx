@@ -1,12 +1,7 @@
-import React, { useContext, useState } from 'react';
-import { Modal, TouchableWithoutFeedback } from 'react-native';
+import React, { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/auth.routes';
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   Container,
@@ -16,17 +11,12 @@ import {
   NoOptionButton,
   Icon,
   BackButton,
-  ModalContainer,
-  Name,
-  Photo,
-  ButtonConfig,
-  Config,
-  LogOut,
-  CloseModalArea,
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
-import { LoginContext } from '../../context/auth';
+import { PreviewUserProfile } from '../PreviewUserProfile/inde';
+import { AppRoutesTabParamList } from '../../routes/app.routes';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 interface HeaderProps {
   type: 'logo' | 'back';
@@ -34,13 +24,13 @@ interface HeaderProps {
   option: boolean;
 }
 
-type AuthScreenProps = StackNavigationProp<RootStackParamList, 'Dashboard'>;
+type AuthScreenProps = StackNavigationProp<RootStackParamList>;
+type BottomTabScreenProps = BottomTabNavigationProp<AppRoutesTabParamList>;
 
 export function Header({ type, title, option }: HeaderProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const { navigate }: NavigationProp<ParamListBase> = useNavigation();
   const navigateAuth = useNavigation<AuthScreenProps>();
-  const { logOut } = useContext(LoginContext);
+  const navigateApp = useNavigation<BottomTabScreenProps>();
 
   function handleOpenModal() {
     if (modalOpen === true) {
@@ -53,16 +43,6 @@ export function Header({ type, title, option }: HeaderProps) {
     setModalOpen(false);
   }
 
-  function handleSettings() {
-    handleCloseModal();
-
-    navigate('Settings');
-  }
-
-  function handleLogout() {
-    logOut();
-  }
-
   function handleGoBack() {
     if (title === 'Login' || title === 'Cadastro') {
       navigateAuth.goBack();
@@ -70,6 +50,10 @@ export function Header({ type, title, option }: HeaderProps) {
 
     if (title === 'Configurações') {
       navigateAuth.navigate('Home');
+    }
+
+    if (title === 'Paleta') {
+      navigateApp.navigate('MyPalettes');
     }
   }
 
@@ -96,25 +80,9 @@ export function Header({ type, title, option }: HeaderProps) {
           </NoOptionButton>
         )}
       </HeaderContent>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalOpen}
-        onRequestClose={handleCloseModal}>
-        <CloseModalArea onPress={handleCloseModal}>
-          <TouchableWithoutFeedback>
-            <ModalContainer>
-              <Name>Rafael Tavares</Name>
-
-              <Photo name="account-circle" />
-              <ButtonConfig>
-                <Config onPress={handleSettings}>Configuracoes</Config>
-              </ButtonConfig>
-              <LogOut onPress={handleLogout}>Sair</LogOut>
-            </ModalContainer>
-          </TouchableWithoutFeedback>
-        </CloseModalArea>
-      </Modal>
+      {modalOpen && (
+        <PreviewUserProfile onClose={handleCloseModal} visible={modalOpen} />
+      )}
     </Container>
   );
 }

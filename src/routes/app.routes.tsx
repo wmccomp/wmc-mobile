@@ -10,7 +10,16 @@ import { Settings } from '../screens/Settings';
 import { SearchPalette } from '../screens/SearchPalette';
 import { MyPalettes } from '../screens/MyPalettes';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+export type AppRoutesTabParamList = {
+  SplashScreen: undefined;
+  Home: undefined;
+  Settings: undefined;
+  SearchPalette: undefined;
+  MyPalettes: undefined;
+  Lib: undefined;
+};
+
+const { Navigator, Screen } = createBottomTabNavigator<AppRoutesTabParamList>();
 
 const AppRoutes = () => {
   const theme = useTheme();
@@ -28,13 +37,11 @@ const AppRoutes = () => {
           paddingVertical: Platform.OS === 'ios' ? 20 : 0,
           backgroundColor: theme.colors.black,
         },
-      }}
-    >
+      }}>
       <Screen
         name="SplashScreen"
         component={SplashScreen}
         options={{
-          // Remover BottomTabNavigator da tela SplashScreen
           tabBarButton: () => null,
           tabBarStyle: { display: 'none' },
         }}

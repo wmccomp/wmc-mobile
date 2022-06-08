@@ -11,17 +11,17 @@ export function Home() {
   const [showAddPalette, setShowAddPalette] = useState(false);
   const closeModal = () => setShowAddPalette(false);
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      return true;
-    });
+  // useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', () => {
+  //     return true;
+  //   });
 
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', () => {
-        return true;
-      });
-    };
-  }, []);
+  //   return () => {
+  //     BackHandler.removeEventListener('hardwareBackPress', () => {
+  //       return true;
+  //     });
+  //   };
+  // }, []);
   return (
     <>
       <Header type="logo" title="Where's My Color?" option={true} />
