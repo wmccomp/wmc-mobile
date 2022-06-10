@@ -26,12 +26,27 @@ interface IAddPaletteProps {
   onClose: () => void;
 }
 
+const INITIAL_STATE = {
+  isPublic: true,
+  name: '',
+};
+
 export function AddPalette({ onClose, visible }: IAddPaletteProps) {
   const [isPublic, setIsPublic] = useState(true);
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { token } = useContext(LoginContext);
+
+  function resetState() {
+    setIsPublic(INITIAL_STATE.isPublic);
+    setName(INITIAL_STATE.name);
+  }
+
+  function handleClose() {
+    onClose();
+    resetState();
+  }
 
   async function handleCreatePalette() {
     setLoading(true);
@@ -46,6 +61,7 @@ export function AddPalette({ onClose, visible }: IAddPaletteProps) {
       Alert.alert('Erro', error.response.data.message);
     } finally {
       setLoading(false);
+      handleClose();
     }
   }
 
