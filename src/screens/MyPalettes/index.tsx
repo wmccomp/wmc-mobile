@@ -48,7 +48,7 @@ export function MyPalettes() {
       <Header type="logo" title="Where's My Color?" option={true} />
       <AddPalette onClose={closeModal} visible={showAddPalette} />
       <Container>
-        <ContainerScroll>
+        <ContainerScroll showsVerticalScrollIndicator={false}>
           {palettes.map((palette) => (
             <PalettePreview key={palette._id} palette={palette} />
           ))}

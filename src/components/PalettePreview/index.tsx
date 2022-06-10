@@ -36,6 +36,7 @@ export function PalettePreview({ palette }: IPalettePreviewProps) {
           horizontal
           renderItem={renderItem}
           keyExtractor={(item) => item._id}
+          showsHorizontalScrollIndicator={false}
         />
       ) : (
         <TouchableOpacity onPress={openPalette}>
