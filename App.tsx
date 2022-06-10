@@ -17,6 +17,7 @@ import theme from './src/global/styles/theme';
 import Routes from './src/routes';
 import { LoginProvider } from './src/context/auth';
 import { SplashProvider } from './src/context/splash';
+import { PaletteProvider } from './src/context/palette';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -34,12 +35,14 @@ export default function App() {
     <LoginProvider>
       <ThemeProvider theme={theme}>
         <SplashProvider>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor={theme.colors.black}
-          />
-          <Routes />
-          <Toast />
+          <PaletteProvider>
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor={theme.colors.black}
+            />
+            <Routes />
+            <Toast />
+          </PaletteProvider>
         </SplashProvider>
       </ThemeProvider>
     </LoginProvider>

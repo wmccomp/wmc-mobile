@@ -51,7 +51,6 @@ export function PreviewUserProfile({
         },
       })
       .then(({ data: { user } }) => {
-        console.log(user.profilePicture);
         setName(user.username);
         setPicture(user.profilePicture);
       })

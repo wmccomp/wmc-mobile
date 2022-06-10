@@ -3,18 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import AppRoutes from './app.routes';
 import { Palette } from '../screens/Palette';
+import { IPalette } from '../@types';
 
-interface IPalette {
-  colors: any[];
-  ownerId: string;
-  name: string;
-  isPublic: boolean;
-  createdAt: string;
-  updatedAt: string;
-  membersId: string[];
-  authorizeChange: string[];
-  _id: string;
-}
 export type AppStackParamList = {
   AppRoutes: undefined;
   Palette: { palette: IPalette };

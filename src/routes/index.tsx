@@ -8,7 +8,6 @@ import AppStack from './app-stack.routes';
 
 const Routes = () => {
   const { token } = useContext(LoginContext);
-  console.log(token);
 
   return (
     <NavigationContainer>

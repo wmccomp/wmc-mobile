@@ -26,7 +26,6 @@ export function Settings() {
     try {
       navigate('Listagem');
     } catch (error) {
-      console.log(error);
       Alert.alert('Não foi possível salvar!');
     }
   }

@@ -7,11 +7,21 @@ import { FloatButton } from '../../components/FloatButton';
 import { Header } from '../../components/Header';
 import { PalettePreview } from '../../components/PalettePreview';
 import { LoginContext } from '../../context/auth';
+import { PaletteContext } from '../../context/palette';
 
 import { Container, ContainerScroll } from './styles';
 
 type TUserPalettes = {
-  colors: any[];
+  colors: {
+    values: {
+      hex: string;
+      rgb: string;
+    };
+    title: string;
+    _id: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
   ownerId: string;
   name: string;
   isPublic: boolean;
@@ -24,24 +34,15 @@ type TUserPalettes = {
 
 export function MyPalettes() {
   const [showAddPalette, setShowAddPalette] = useState(false);
-  const [palettes, setPalettes] = useState<TUserPalettes>([] as TUserPalettes);
-  const { token } = useContext(LoginContext);
+
+  const { palettes, setShouldUpdatePalettes } = useContext(PaletteContext);
+
+  useEffect(() => {
+    if (!showAddPalette) setShouldUpdatePalettes(true);
+  }, [showAddPalette]);
 
   const closeModal = () => setShowAddPalette(false);
-  useEffect(() => {
-    wmcApi
-      .get('user/palettes', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(({ data }) => {
-        setPalettes(data.palettes);
-      })
-      .catch((err) => {
-        Alert.alert('Erro', err.response.data.message);
-      });
-  }, []);
+  useEffect(() => {}, []);
   return (
     <>
       <Header type="logo" title="Where's My Color?" option={true} />
