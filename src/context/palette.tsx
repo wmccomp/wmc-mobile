@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   createContext,
   PropsWithChildren,
@@ -6,11 +7,14 @@ import {
   useState,
 } from 'react';
 import { Alert } from 'react-native';
+
 import {
+  IColor,
   IGetPaletteDataAxios,
   IGetPalettesDataAxios,
   IPalette,
   IPaletteContext,
+  TRecentColors,
 } from '../@types';
 import { wmcApi } from '../api';
 import { LoginContext } from './auth';
@@ -22,6 +26,9 @@ export const PaletteContext = createContext<IPaletteContext>(
 export function PaletteProvider({ children }: PropsWithChildren<{}>) {
   const [palettes, setPalettes] = useState<IPalette[]>([]);
   const [shouldUpdatePalettes, setShouldUpdatePalettes] = useState(false);
+  const [recentColors, setRecentColors] = useState<IColor[]>([]);
+
+  console.log(recentColors);
 
   const { token } = useContext(LoginContext);
 
@@ -83,6 +90,31 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     await getUserPalettes();
   }
 
+  async function addRecentColor(color: IColor) {
+    const recentColorsJSON =
+      (await AsyncStorage.getItem('@recent_colors')) || '[]';
+    const colors: TRecentColors = JSON.parse(recentColorsJSON);
+
+    if (colors.some((recentColor) => recentColor._id === color._id)) {
+      return;
+    }
+
+    if (colors.length >= 6) {
+      colors.shift();
+    }
+
+    colors.push(color);
+    setRecentColors(colors);
+    await AsyncStorage.setItem('@recent_colors', JSON.stringify(colors));
+  }
+
+  async function getRecentColors() {
+    const recentColorsJSON = await AsyncStorage.getItem('@recent_colors');
+    const colors: TRecentColors = JSON.parse(recentColorsJSON);
+
+    setRecentColors(colors);
+  }
+
   useEffect(() => {
     if (shouldUpdatePalettes) {
       getUserPalettes();
@@ -94,6 +126,7 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     <PaletteContext.Provider
       value={{
         palettes,
+        recentColors,
         getUserPalettes,
         shouldUpdatePalettes,
         setShouldUpdatePalettes,
@@ -101,6 +134,8 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
         deleteColor,
         deletePalette,
         updatePalette,
+        addRecentColor,
+        getRecentColors,
       }}>
       {children}
     </PaletteContext.Provider>

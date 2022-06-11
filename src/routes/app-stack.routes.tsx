@@ -19,7 +19,13 @@ const AppStack: React.FC = () => (
     }}>
     <Screen name="AppRoutes" component={AppRoutes} />
 
-    <Screen name="Palette" component={Palette} />
+    <Screen
+      options={{
+        detachPreviousScreen: true,
+      }}
+      name="Palette"
+      component={Palette}
+    />
   </Navigator>
 );
 

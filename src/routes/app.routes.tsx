@@ -29,6 +29,7 @@ const AppRoutes = () => {
   return (
     <Navigator
       screenOptions={{
+        unmountOnBlur: true,
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: theme.colors.white,

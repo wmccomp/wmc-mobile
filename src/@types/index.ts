@@ -35,6 +35,7 @@ export interface IGetPaletteDataAxios {
 
 export interface IPaletteContext {
   palettes: IPalette[];
+  recentColors: IColor[];
   getUserPalettes: () => Promise<void>;
   shouldUpdatePalettes: boolean;
   setShouldUpdatePalettes: Dispatch<SetStateAction<boolean>>;
@@ -42,4 +43,15 @@ export interface IPaletteContext {
   deleteColor: (paletteId: string, colorId: string) => Promise<void>;
   deletePalette: (paletteId: string) => Promise<void>;
   updatePalette: (paletteId: string, data: { name: string }) => Promise<void>;
+  addRecentColor: (color: IColor) => Promise<void>;
+  getRecentColors: () => Promise<void>;
+}
+
+export type TRecentColors = IColor[];
+
+export interface IColorCardProps {
+  color: IColor;
+  paletteId?: string;
+  title?: string;
+  showTitle?: boolean;
 }

@@ -1,18 +1,13 @@
 import * as Clipboard from 'expo-clipboard';
-import { useEffect, useState } from 'react';
-import { Alert, Modal } from 'react-native';
+import { useContext, useState } from 'react';
+import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { IColor } from '../../@types';
+import { IColorCardProps } from '../../@types';
+import { ForceUpdateContext } from '../../context/forceUpdate';
+import { PaletteContext } from '../../context/palette';
 import { ColorOptions } from '../ColorOptions';
 
 import { CardWrapper, Color, ColorTitle } from './styles';
-
-interface IColorCardProps {
-  color: IColor;
-  paletteId: string;
-  title?: string;
-  showTitle?: boolean;
-}
 
 export function ColorCard({
   color,
@@ -21,6 +16,8 @@ export function ColorCard({
   paletteId,
 }: IColorCardProps) {
   const [showColorOptions, setShowColorOptions] = useState(false);
+
+  const { addRecentColor } = useContext(PaletteContext);
 
   function copyToClipboard(colorVal: string) {
     Clipboard.setString(colorVal);
@@ -35,18 +32,40 @@ export function ColorCard({
   function closeModal() {
     setShowColorOptions(false);
   }
+
+  function handleCopyRGB() {
+    copyToClipboard(color.values.rgb);
+  }
+
+  function handleColorLongPress() {
+    setShowColorOptions(true);
+  }
+
+  async function handleColorPress() {
+    copyToClipboard(color.values.hex);
+
+    try {
+      await addRecentColor(color);
+    } catch (error) {
+      Alert.alert('Erro', 'Erro ao adicionar cor às cores recentes.');
+      console.log(error);
+    }
+  }
+
   return (
     <CardWrapper>
-      <ColorOptions
-        copyRGB={() => copyToClipboard(color.values.rgb)}
-        visible={showColorOptions}
-        paletteId={paletteId}
-        colorId={color._id}
-        onClose={closeModal}
-      />
+      {paletteId && (
+        <ColorOptions
+          copyRGB={handleCopyRGB}
+          visible={showColorOptions}
+          paletteId={paletteId}
+          colorId={color._id}
+          onClose={closeModal}
+        />
+      )}
       <Color
-        onLongPress={() => setShowColorOptions(true)}
-        onPress={() => copyToClipboard(color.values.hex)}
+        onLongPress={handleColorLongPress}
+        onPress={handleColorPress}
         color={color.values.hex}
       />
       {showTitle && <ColorTitle>{title}</ColorTitle>}
