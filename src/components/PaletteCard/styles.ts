@@ -6,9 +6,9 @@ interface IColorCardProps {
 }
 
 export const Color = styled.View<{ color: string }>`
-  width: ${RFValue(32.5)}px;
-  height: ${RFValue(32.5)}px;
-  margin: 0 5px 5px 0;
+  width: ${RFValue(35)}px;
+  height: ${RFValue(35)}px;
+  margin: 0 2.5px 2.5px 0;
   background-color: ${({ color }) => color ?? 'black'};
 `;
 
