@@ -4,6 +4,7 @@ import { Alert, Modal, TouchableWithoutFeedback } from 'react-native';
 import { wmcApi } from '../../api';
 import { LoginContext } from '../../context/auth';
 import { Load } from '../Load';
+import { ModalCustom } from '../ModalCustom';
 import {
   Button,
   ButtonLabel,
@@ -94,41 +95,31 @@ export function AddColor({ onClose, visible, paletteId }: IAddColorProps) {
   });
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={visible}
-      onRequestClose={handleClose}>
-      <CloseModalArea onPress={handleClose}>
-        <TouchableWithoutFeedback>
-          <Container>
-            <Title>Nova Cor</Title>
-            <Input
-              editable={!loading}
-              placeholder="Título da Cor"
-              onChangeText={setTitle}
-              value={title}
-            />
-            <Input
-              editable={!loading}
-              maxLength={7}
-              placeholder="Valor da Cor"
-              onChangeText={filterCharacters}
-              value={color}
-            />
+    <ModalCustom onClose={handleClose} visible={visible}>
+      <Title>Nova Cor</Title>
+      <Input
+        editable={!loading}
+        placeholder="Título da Cor"
+        onChangeText={setTitle}
+        value={title}
+      />
+      <Input
+        editable={!loading}
+        maxLength={7}
+        placeholder="Valor da Cor"
+        onChangeText={filterCharacters}
+        value={color}
+      />
 
-            <Color color={colorCache} />
+      <Color color={colorCache} />
 
-            {loading ? (
-              <Load />
-            ) : (
-              <Button onPress={handleCreateColor}>
-                <ButtonLabel>OK</ButtonLabel>
-              </Button>
-            )}
-          </Container>
-        </TouchableWithoutFeedback>
-      </CloseModalArea>
-    </Modal>
+      {loading ? (
+        <Load />
+      ) : (
+        <Button onPress={handleCreateColor}>
+          <ButtonLabel>OK</ButtonLabel>
+        </Button>
+      )}
+    </ModalCustom>
   );
 }

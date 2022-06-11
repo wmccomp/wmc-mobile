@@ -1,4 +1,4 @@
-import { TextInput, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
@@ -33,20 +33,6 @@ export const Title = styled.Text`
   text-align: center;
 `;
 
-export const Input = styled(TextInput)`
-  width: 100%;
-  height: ${RFValue(40)}px;
-  border: ${RFValue(2)}px solid ${({ theme }) => theme.colors.title};
-
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(20)}px;
-  color: ${({ theme }) => theme.colors.black};
-  text-align: center;
-
-  border-radius: 5px;
-  margin: 20px 0 10px;
-`;
-
 export const Button = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.blue};
   padding: ${RFValue(3)}px ${RFValue(35)}px;
@@ -61,9 +47,11 @@ export const ButtonLabel = styled.Text`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-export const Color = styled.View`
-  border: 2px solid black;
-  background-color: ${({ color }: IColorCardProps) => color};
-  width: ${RFValue(75)}px;
-  height: ${RFValue(75)}px;
+export const ButtonOption = styled.TouchableOpacity<{
+  color: 'attention' | 'shape';
+}>`
+  background-color: ${({ theme, color }) => theme.colors[color]};
+  padding: ${RFValue(3)}px ${RFValue(35)}px;
+  margin-top: ${RFValue(10)}px;
+  border-radius: 10px;
 `;

@@ -63,6 +63,26 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     });
   }
 
+  async function deletePalette(paletteId: string) {
+    await wmcApi.delete(`palette/${paletteId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    await getUserPalettes();
+  }
+
+  async function updatePalette(paletteId: string, data: { name: string }) {
+    await wmcApi.put(`palette/${paletteId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    await getUserPalettes();
+  }
+
   useEffect(() => {
     if (shouldUpdatePalettes) {
       getUserPalettes();
@@ -79,6 +99,8 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
         setShouldUpdatePalettes,
         getUserPalette,
         deleteColor,
+        deletePalette,
+        updatePalette,
       }}>
       {children}
     </PaletteContext.Provider>

@@ -1,21 +1,10 @@
 import { useContext, useState } from 'react';
-import { Alert, Modal, TouchableWithoutFeedback } from 'react-native';
-import Toast from 'react-native-toast-message';
-import * as Clipboard from 'expo-clipboard';
-
-import { wmcApi } from '../../api';
-import { LoginContext } from '../../context/auth';
+import { Alert } from 'react-native';
 import { Load } from '../Load';
-import {
-  Button,
-  ButtonLabel,
-  ButtonOption,
-  CloseModalArea,
-  Container,
-  Title,
-} from './styles';
+import { ButtonLabel, ButtonOption, Title } from './styles';
 import { PaletteContext } from '../../context/palette';
 import { ForceUpdateContext } from '../../context/forceUpdate';
+import { ModalCustom } from '../ModalCustom';
 
 interface IColorOptionsProps {
   visible: boolean;
@@ -46,9 +35,9 @@ export function ColorOptions({
       Alert.alert('Erro', error.response.data.message);
     } finally {
       setLoading(false);
-      onClose();
       await getUserPalettes();
       forceUpdate();
+      onClose();
     }
   }
 
@@ -58,26 +47,16 @@ export function ColorOptions({
   }
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}>
-      <CloseModalArea onPress={onClose}>
-        <TouchableWithoutFeedback>
-          <Container>
-            <Title>Opções</Title>
-            <ButtonOption onPress={handleCopyRGB} color="shape">
-              <ButtonLabel>Copiar RGB</ButtonLabel>
-            </ButtonOption>
-            <ButtonOption onPress={handleDeleteColor} color="attention">
-              <ButtonLabel>Apagar</ButtonLabel>
-            </ButtonOption>
+    <ModalCustom onClose={onClose} visible={visible}>
+      <Title>Opções</Title>
+      <ButtonOption onPress={handleCopyRGB} color="shape">
+        <ButtonLabel>Copiar RGB</ButtonLabel>
+      </ButtonOption>
+      <ButtonOption onPress={handleDeleteColor} color="attention">
+        <ButtonLabel>Apagar</ButtonLabel>
+      </ButtonOption>
 
-            {loading && <Load />}
-          </Container>
-        </TouchableWithoutFeedback>
-      </CloseModalArea>
-    </Modal>
+      {loading && <Load />}
+    </ModalCustom>
   );
 }

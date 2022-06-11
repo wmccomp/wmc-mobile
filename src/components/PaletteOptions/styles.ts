@@ -16,7 +16,7 @@ export const Title = styled.Text`
 
 export const Button = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.blue};
-  padding: ${RFValue(3)}px ${RFValue(35)}px;
+  padding: ${RFValue(3)}px ${RFValue(10)}px;
   margin-top: ${RFValue(10)}px;
   border-radius: 10px;
 `;
@@ -35,4 +35,8 @@ export const ButtonOption = styled.TouchableOpacity<{
   padding: ${RFValue(3)}px ${RFValue(35)}px;
   margin-top: ${RFValue(10)}px;
   border-radius: 10px;
+`;
+
+export const ButtonGroup = styled.View`
+  margin-top: ${RFValue(50)}px;
 `;

@@ -1,22 +1,15 @@
 import CheckBox from 'expo-checkbox';
 import { useContext, useState } from 'react';
-import {
-  Alert,
-  Modal,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { Alert } from 'react-native';
 import { wmcApi } from '../../api';
 import { LoginContext } from '../../context/auth';
 import { Load } from '../Load';
+import { ModalCustom } from '../ModalCustom';
 import {
   Button,
   ButtonLabel,
   CheckBoxContainer,
   CheckBoxLabel,
-  CloseModalArea,
-  Container,
   Input,
   Title,
 } from './styles';
@@ -66,39 +59,29 @@ export function AddPalette({ onClose, visible }: IAddPaletteProps) {
   }
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}>
-      <CloseModalArea onPress={onClose}>
-        <TouchableWithoutFeedback>
-          <Container>
-            <Title>Adicionar Paleta</Title>
-            <Input
-              placeholder="Título da Paleta"
-              onChangeText={setName}
-              value={name}
-            />
-            <CheckBoxContainer onPress={() => setIsPublic((prev) => !prev)}>
-              <CheckBoxLabel>Pública?</CheckBoxLabel>
-              <CheckBox
-                disabled={false}
-                value={isPublic}
-                onValueChange={setIsPublic}
-                color={isPublic ? '#000000' : undefined}
-              />
-            </CheckBoxContainer>
-            {loading ? (
-              <Load />
-            ) : (
-              <Button onPress={handleCreatePalette}>
-                <ButtonLabel>OK</ButtonLabel>
-              </Button>
-            )}
-          </Container>
-        </TouchableWithoutFeedback>
-      </CloseModalArea>
-    </Modal>
+    <ModalCustom onClose={handleClose} visible={visible}>
+      <Title>Adicionar Paleta</Title>
+      <Input
+        placeholder="Título da Paleta"
+        onChangeText={setName}
+        value={name}
+      />
+      <CheckBoxContainer onPress={() => setIsPublic((prev) => !prev)}>
+        <CheckBoxLabel>Pública?</CheckBoxLabel>
+        <CheckBox
+          disabled={false}
+          value={isPublic}
+          onValueChange={setIsPublic}
+          color={isPublic ? '#000000' : undefined}
+        />
+      </CheckBoxContainer>
+      {loading ? (
+        <Load />
+      ) : (
+        <Button onPress={handleCreatePalette}>
+          <ButtonLabel>OK</ButtonLabel>
+        </Button>
+      )}
+    </ModalCustom>
   );
 }

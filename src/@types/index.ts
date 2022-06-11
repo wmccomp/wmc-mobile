@@ -40,4 +40,6 @@ export interface IPaletteContext {
   setShouldUpdatePalettes: Dispatch<SetStateAction<boolean>>;
   getUserPalette: (paletteId: string) => Promise<IPalette>;
   deleteColor: (paletteId: string, colorId: string) => Promise<void>;
+  deletePalette: (paletteId: string) => Promise<void>;
+  updatePalette: (paletteId: string, data: { name: string }) => Promise<void>;
 }
