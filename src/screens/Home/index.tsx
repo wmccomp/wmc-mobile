@@ -6,6 +6,7 @@ import { ColorCard } from '../../components/ColorCard';
 import { FloatButton } from '../../components/FloatButton';
 
 import { Header } from '../../components/Header';
+import { PaletteCard } from '../../components/PaletteCard';
 import { ForceUpdateProvider } from '../../context/forceUpdate';
 import { PaletteContext } from '../../context/palette';
 
@@ -40,12 +41,12 @@ export function Home() {
       <Header type="logo" title="Where's My Color?" option={true} />
       <Container>
         <AddPalette onClose={closeModal} visible={showAddPalette} />
-
         <View>
           <Title>Cores Recentes</Title>
           {renderRecentColors()}
         </View>
         <Title>Paletas Recentes</Title>
+        <PaletteCard />
         <Title>Paletas Favoritas</Title>
         <FloatButton
           onPress={() => setShowAddPalette(true)}

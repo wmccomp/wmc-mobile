@@ -55,3 +55,8 @@ export interface IColorCardProps {
   title?: string;
   showTitle?: boolean;
 }
+export interface IPaletteCardProps {
+  paletteId?: string;
+  title?: string;
+  showTitle?: boolean;
+}
