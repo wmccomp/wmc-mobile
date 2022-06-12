@@ -3,9 +3,10 @@ import {
   ParamListBase,
   useNavigation,
 } from '@react-navigation/native';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { IPalette } from '../../@types';
+import { PaletteContext } from '../../context/palette';
 import { AppStackParamList } from '../../routes/app-stack.routes';
 import { ColorCard } from '../ColorCard';
 import { PaletteOptions } from '../PaletteOptions';
@@ -17,12 +18,14 @@ interface IPalettePreviewProps {
 
 export function PalettePreview({ palette }: IPalettePreviewProps) {
   const [showPaletteOptions, setShowPaletteOptions] = useState(false);
-  const { navigate }: NavigationProp<AppStackParamList> = useNavigation();
 
+  const { navigate }: NavigationProp<AppStackParamList> = useNavigation();
+  const { addRecentPalette } = useContext(PaletteContext);
   const renderItem = ({ item }) => (
     <ColorCard paletteId={palette._id} color={item} />
   );
   const openPalette = () => {
+    addRecentPalette(palette);
     navigate('Palette', {
       palette,
     });
@@ -30,11 +33,13 @@ export function PalettePreview({ palette }: IPalettePreviewProps) {
 
   return (
     <>
-      <PaletteOptions
-        paletteId={palette._id}
-        visible={showPaletteOptions}
-        onClose={() => setShowPaletteOptions(false)}
-      />
+      {showPaletteOptions && (
+        <PaletteOptions
+          paletteId={palette._id}
+          visible={showPaletteOptions}
+          onClose={() => setShowPaletteOptions(false)}
+        />
+      )}
       <PaletteContainer>
         <TouchableOpacity
           onLongPress={() => setShowPaletteOptions(true)}

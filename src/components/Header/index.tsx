@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/auth.routes';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import {
   Container,
@@ -17,6 +17,7 @@ import Logo from '../../assets/logo.svg';
 import { PreviewUserProfile } from '../PreviewUserProfile/inde';
 import { AppRoutesTabParamList } from '../../routes/app.routes';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { AppStackParamList } from '../../routes/app-stack.routes';
 
 interface HeaderProps {
   type: 'logo' | 'back';
@@ -32,6 +33,8 @@ export function Header({ type, title, option, paletteScreen }: HeaderProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const navigateAuth = useNavigation<AuthScreenProps>();
   const navigateApp = useNavigation<BottomTabScreenProps>();
+
+  const { goBack }: NavigationProp<AppStackParamList> = useNavigation();
 
   function handleOpenModal() {
     if (modalOpen === true) {
@@ -54,7 +57,7 @@ export function Header({ type, title, option, paletteScreen }: HeaderProps) {
     }
 
     if (paletteScreen) {
-      navigateApp.navigate('MyPalettes');
+      goBack();
     }
   }
 

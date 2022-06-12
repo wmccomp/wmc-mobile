@@ -15,6 +15,7 @@ import {
   IPalette,
   IPaletteContext,
   TRecentColors,
+  TRecentPalettes,
 } from '../@types';
 import { wmcApi } from '../api';
 import { LoginContext } from './auth';
@@ -23,12 +24,16 @@ export const PaletteContext = createContext<IPaletteContext>(
   {} as IPaletteContext,
 );
 
+const STORAGE_RECENT_COLORS_KEY = '@recent_colors';
+const STORAGE_RECENT_PALETTES_KEY = '@recent_palettes';
+const MAX_RECENT_COLORS = 6;
+const MAX_RECENT_PALETTES = 6;
+
 export function PaletteProvider({ children }: PropsWithChildren<{}>) {
   const [palettes, setPalettes] = useState<IPalette[]>([]);
   const [shouldUpdatePalettes, setShouldUpdatePalettes] = useState(false);
   const [recentColors, setRecentColors] = useState<IColor[]>([]);
-
-  console.log(recentColors);
+  const [recentPalettes, setRecentPalettes] = useState<IPalette[]>([]);
 
   const { token } = useContext(LoginContext);
 
@@ -92,27 +97,60 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
 
   async function addRecentColor(color: IColor) {
     const recentColorsJSON =
-      (await AsyncStorage.getItem('@recent_colors')) || '[]';
+      (await AsyncStorage.getItem(STORAGE_RECENT_COLORS_KEY)) || '[]';
     const colors: TRecentColors = JSON.parse(recentColorsJSON);
 
     if (colors.some((recentColor) => recentColor._id === color._id)) {
       return;
     }
 
-    if (colors.length >= 6) {
+    if (colors.length >= MAX_RECENT_COLORS) {
       colors.shift();
     }
 
     colors.push(color);
-    setRecentColors(colors);
-    await AsyncStorage.setItem('@recent_colors', JSON.stringify(colors));
+
+    await AsyncStorage.setItem(
+      STORAGE_RECENT_COLORS_KEY,
+      JSON.stringify(colors),
+    );
   }
 
   async function getRecentColors() {
-    const recentColorsJSON = await AsyncStorage.getItem('@recent_colors');
+    const recentColorsJSON =
+      (await AsyncStorage.getItem(STORAGE_RECENT_COLORS_KEY)) || '[]';
     const colors: TRecentColors = JSON.parse(recentColorsJSON);
 
     setRecentColors(colors);
+  }
+
+  async function addRecentPalette(palette: IPalette) {
+    const recentPalettesJSON =
+      (await AsyncStorage.getItem(STORAGE_RECENT_PALETTES_KEY)) || '[]';
+    const palettes: TRecentPalettes = JSON.parse(recentPalettesJSON);
+
+    if (palettes.some((recentPalette) => recentPalette._id === palette._id)) {
+      return;
+    }
+
+    if (palettes.length >= MAX_RECENT_PALETTES) {
+      palettes.shift();
+    }
+
+    palettes.push(palette);
+
+    await AsyncStorage.setItem(
+      STORAGE_RECENT_PALETTES_KEY,
+      JSON.stringify(palettes),
+    );
+  }
+
+  async function getRecentPalettes() {
+    const recentPalettesJSON =
+      (await AsyncStorage.getItem(STORAGE_RECENT_PALETTES_KEY)) || '[]';
+    const colors: TRecentPalettes = JSON.parse(recentPalettesJSON);
+
+    setRecentPalettes(colors);
   }
 
   useEffect(() => {
@@ -127,6 +165,7 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
       value={{
         palettes,
         recentColors,
+        recentPalettes,
         getUserPalettes,
         shouldUpdatePalettes,
         setShouldUpdatePalettes,
@@ -136,6 +175,8 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
         updatePalette,
         addRecentColor,
         getRecentColors,
+        addRecentPalette,
+        getRecentPalettes,
       }}>
       {children}
     </PaletteContext.Provider>
