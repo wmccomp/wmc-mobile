@@ -17,17 +17,29 @@ export function Home() {
   const [showAddPalette, setShowAddPalette] = useState(false);
   const [loadingColors, setLoadingColors] = useState(false);
   const [loadingPalettes, setLoadingPalettes] = useState(false);
+  const [loadingFavoritePalettes, setLoadingFavoritePalettes] = useState(false);
 
-  const { recentColors, recentPalettes, getRecentColors, getRecentPalettes } =
-    useContext(PaletteContext);
+  const {
+    recentColors,
+    recentPalettes,
+    favoritePalettes,
+    getRecentColors,
+    getRecentPalettes,
+    getFavoritePalettes,
+  } = useContext(PaletteContext);
 
   function closeModal() {
     setShowAddPalette(false);
   }
 
+  function handleFloatButtonPress() {
+    setShowAddPalette(true);
+  }
+
   const renderItemColor = ({ item }) => (
     <ColorCard key={item._id} color={item} />
   );
+
   const renderItemPalette = ({ item }) => (
     <PaletteCard key={item._id} paletteId={item._id} />
   );
@@ -68,12 +80,32 @@ export function Home() {
     );
   }
 
+  function renderFavoritePalettes() {
+    if (!favoritePalettes.length) {
+      return <SubTitle>Sem Paletas Favoritas</SubTitle>;
+    }
+
+    const palettesToPrint = [...favoritePalettes];
+
+    return (
+      <FlatList
+        data={palettesToPrint}
+        horizontal
+        renderItem={renderItemPalette}
+        keyExtractor={(item) => item._id}
+        showsHorizontalScrollIndicator={false}
+      />
+    );
+  }
+
   useEffect(() => {
     setLoadingColors(true);
     setLoadingPalettes(true);
+    setLoadingFavoritePalettes(true);
 
     getRecentColors().then(() => setLoadingColors(false));
     getRecentPalettes().then(() => setLoadingPalettes(false));
+    getFavoritePalettes().then(() => setLoadingFavoritePalettes(false));
   }, []);
 
   return (
@@ -88,11 +120,8 @@ export function Home() {
         <Title>Paletas Recentes</Title>
         <View>{loadingPalettes ? <Load /> : renderRecentPalettes()}</View>
         <Title>Paletas Favoritas</Title>
-        <FloatButton
-          onPress={() => setShowAddPalette(true)}
-          right={15}
-          bottom={15}
-        />
+        <View>{loadingPalettes ? <Load /> : renderFavoritePalettes()}</View>
+        <FloatButton onPress={handleFloatButtonPress} right={15} bottom={15} />
       </Container>
     </>
   );

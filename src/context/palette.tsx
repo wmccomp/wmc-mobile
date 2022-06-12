@@ -26,6 +26,7 @@ export const PaletteContext = createContext<IPaletteContext>(
 
 const STORAGE_RECENT_COLORS_KEY = '@recent_colors';
 const STORAGE_RECENT_PALETTES_KEY = '@recent_palettes';
+const STORAGE_FAVORITE_PALETTES_KEY = '@favorite_palettes';
 const MAX_RECENT_COLORS = 6;
 const MAX_RECENT_PALETTES = 6;
 
@@ -34,6 +35,7 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
   const [shouldUpdatePalettes, setShouldUpdatePalettes] = useState(false);
   const [recentColors, setRecentColors] = useState<IColor[]>([]);
   const [recentPalettes, setRecentPalettes] = useState<IPalette[]>([]);
+  const [favoritePalettes, setFavoritePalettes] = useState<IPalette[]>([]);
 
   const { token } = useContext(LoginContext);
 
@@ -148,9 +150,53 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
   async function getRecentPalettes() {
     const recentPalettesJSON =
       (await AsyncStorage.getItem(STORAGE_RECENT_PALETTES_KEY)) || '[]';
-    const colors: TRecentPalettes = JSON.parse(recentPalettesJSON);
+    const palettes: TRecentPalettes = JSON.parse(recentPalettesJSON);
 
-    setRecentPalettes(colors);
+    setRecentPalettes(palettes);
+  }
+
+  async function addFavoritePalette(palette: IPalette) {
+    const favoritePalettesJSON =
+      (await AsyncStorage.getItem(STORAGE_FAVORITE_PALETTES_KEY)) || '[]';
+    const palettes: TRecentPalettes = JSON.parse(favoritePalettesJSON);
+
+    if (
+      palettes.some((favoritePalette) => favoritePalette._id === palette._id)
+    ) {
+      return;
+    }
+
+    palettes.push(palette);
+
+    await AsyncStorage.setItem(
+      STORAGE_FAVORITE_PALETTES_KEY,
+      JSON.stringify(palettes),
+    );
+  }
+
+  async function removeFavoritePalette(palette: IPalette) {
+    const favoritePalettesJSON =
+      (await AsyncStorage.getItem(STORAGE_FAVORITE_PALETTES_KEY)) || '[]';
+    const palettes: TRecentPalettes = JSON.parse(favoritePalettesJSON);
+
+    if (
+      !palettes.some((favoritePalette) => favoritePalette._id === palette._id)
+    ) {
+      return;
+    }
+
+    await AsyncStorage.setItem(
+      STORAGE_FAVORITE_PALETTES_KEY,
+      JSON.stringify(palettes.filter((pal) => pal._id !== palette._id)),
+    );
+  }
+
+  async function getFavoritePalettes() {
+    const favoritePalettesJSON =
+      (await AsyncStorage.getItem(STORAGE_FAVORITE_PALETTES_KEY)) || '[]';
+    const palettes: TRecentPalettes = JSON.parse(favoritePalettesJSON);
+
+    setFavoritePalettes(palettes);
   }
 
   useEffect(() => {
@@ -166,6 +212,7 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
         palettes,
         recentColors,
         recentPalettes,
+        favoritePalettes,
         getUserPalettes,
         shouldUpdatePalettes,
         setShouldUpdatePalettes,
@@ -177,6 +224,9 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
         getRecentColors,
         addRecentPalette,
         getRecentPalettes,
+        addFavoritePalette,
+        removeFavoritePalette,
+        getFavoritePalettes,
       }}>
       {children}
     </PaletteContext.Provider>

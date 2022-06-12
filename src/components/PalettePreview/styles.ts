@@ -12,3 +12,10 @@ export const PaletteName = styled.Text`
 export const SubMessage = styled.Text`
   margin-left: 25px;
 `;
+
+export const HeaderContainer = styled.View`
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;

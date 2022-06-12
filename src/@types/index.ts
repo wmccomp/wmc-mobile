@@ -37,6 +37,7 @@ export interface IPaletteContext {
   palettes: IPalette[];
   recentColors: IColor[];
   recentPalettes: IPalette[];
+  favoritePalettes: IPalette[];
   getUserPalettes: () => Promise<void>;
   shouldUpdatePalettes: boolean;
   setShouldUpdatePalettes: Dispatch<SetStateAction<boolean>>;
@@ -48,6 +49,9 @@ export interface IPaletteContext {
   getRecentColors: () => Promise<void>;
   addRecentPalette: (palette: IPalette) => Promise<void>;
   getRecentPalettes: () => Promise<void>;
+  addFavoritePalette: (palette: IPalette) => Promise<void>;
+  removeFavoritePalette: (palette: IPalette) => Promise<void>;
+  getFavoritePalettes: () => Promise<void>;
 }
 
 export type TRecentColors = IColor[];

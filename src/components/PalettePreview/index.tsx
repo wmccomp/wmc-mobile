@@ -1,16 +1,20 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+
 import { IPalette } from '../../@types';
 import { PaletteContext } from '../../context/palette';
 import { AppStackParamList } from '../../routes/app-stack.routes';
 import { ColorCard } from '../ColorCard';
 import { PaletteOptions } from '../PaletteOptions';
-import { PaletteContainer, PaletteName, SubMessage } from './styles';
+import {
+  HeaderContainer,
+  PaletteContainer,
+  PaletteName,
+  SubMessage,
+} from './styles';
+import { FavoriteButton } from '../FavoriteButton';
 
 interface IPalettePreviewProps {
   palette: IPalette;
@@ -41,11 +45,14 @@ export function PalettePreview({ palette }: IPalettePreviewProps) {
         />
       )}
       <PaletteContainer>
-        <TouchableOpacity
-          onLongPress={() => setShowPaletteOptions(true)}
-          onPress={openPalette}>
-          <PaletteName>{palette.name}</PaletteName>
-        </TouchableOpacity>
+        <HeaderContainer>
+          <TouchableOpacity
+            onLongPress={() => setShowPaletteOptions(true)}
+            onPress={openPalette}>
+            <PaletteName>{palette.name}</PaletteName>
+          </TouchableOpacity>
+          <FavoriteButton palette={palette} />
+        </HeaderContainer>
         {palette.colors.length ? (
           <FlatList
             data={palette.colors}
