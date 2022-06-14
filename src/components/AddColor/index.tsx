@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Alert, Modal, TouchableWithoutFeedback } from 'react-native';
 import { wmcApi } from '../../api';
 import { LoginContext } from '../../context/auth';
+import { generateValues } from '../../uitls';
 import { Load } from '../Load';
 import { ModalCustom } from '../ModalCustom';
 import {
@@ -36,20 +37,6 @@ export function AddColor({ onClose, visible, paletteId }: IAddColorProps) {
 
   const { token } = useContext(LoginContext);
 
-  function generateValues() {
-    const colorSplit = color.substring(1).match(/.{2}/g);
-
-    const rgbArr = colorSplit
-      ? colorSplit.map((char) => parseInt(char, 16))
-      : [0, 0, 0];
-    const rgb = rgbArr.reduce((acc, num) => `${acc}${num}, `, '');
-
-    return {
-      hex: color,
-      rgb: `(${rgb.substring(0, rgb.length - 2)})`,
-    };
-  }
-
   function handleClose() {
     onClose();
     resetState();
@@ -59,7 +46,7 @@ export function AddColor({ onClose, visible, paletteId }: IAddColorProps) {
     setLoading(true);
     const data = {
       title,
-      values: generateValues(),
+      values: generateValues(color),
     };
     try {
       await wmcApi.post(`color/create/${paletteId}`, data, {

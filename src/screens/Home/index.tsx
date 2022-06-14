@@ -120,7 +120,9 @@ export function Home() {
         <Title>Paletas Recentes</Title>
         <View>{loadingPalettes ? <Load /> : renderRecentPalettes()}</View>
         <Title>Paletas Favoritas</Title>
-        <View>{loadingPalettes ? <Load /> : renderFavoritePalettes()}</View>
+        <View>
+          {loadingFavoritePalettes ? <Load /> : renderFavoritePalettes()}
+        </View>
         <FloatButton onPress={handleFloatButtonPress} right={15} bottom={15} />
       </Container>
     </>

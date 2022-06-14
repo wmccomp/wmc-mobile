@@ -10,6 +10,7 @@ import { Home } from '../screens/Home';
 import { Settings } from '../screens/Settings';
 import { SearchPalette } from '../screens/SearchPalette';
 import { MyPalettes } from '../screens/MyPalettes';
+import { ColorPicker } from '../screens/ColorPicker';
 
 export type AppRoutesTabParamList = {
   SplashScreen: undefined;
@@ -97,7 +98,7 @@ const AppRoutes = () => {
 
       <Screen
         name="Lib"
-        component={Home}
+        component={ColorPicker}
         options={{
           tabBarActiveTintColor: theme.colors.blue_light,
           tabBarIcon: ({ size, color }) => (

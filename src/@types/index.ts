@@ -68,3 +68,9 @@ export interface IPaletteCardProps {
   title?: string;
   showTitle?: boolean;
 }
+
+export interface IColorExtractProps {
+  visible: boolean;
+  onClose: () => void;
+  imgSource: string;
+}
