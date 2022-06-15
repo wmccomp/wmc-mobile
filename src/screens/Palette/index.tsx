@@ -14,7 +14,7 @@ import { PaletteContainer, PaletteContainerScroll } from './styles';
 export function Palette() {
   const {
     params: { palette },
-  } = useRoute<RouteProp<AppStackParamList>>();
+  } = useRoute<RouteProp<AppStackParamList, 'Palette'>>();
 
   const [showAddColor, setShowAddColor] = useState(false);
   const [colors, setColors] = useState<IColor[]>([]);

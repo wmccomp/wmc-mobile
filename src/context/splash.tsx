@@ -1,14 +1,6 @@
-import {
-  createContext,
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useState,
-} from 'react';
-interface ISplashContext {
-  showSplash: boolean;
-  setShowSplash: Dispatch<SetStateAction<boolean>>;
-}
+import { createContext, PropsWithChildren, useState } from 'react';
+import { ISplashContext } from '../@types';
+
 export const SplashContext = createContext<ISplashContext>(
   {} as ISplashContext,
 );

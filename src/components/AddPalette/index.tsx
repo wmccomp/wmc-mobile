@@ -16,7 +16,7 @@ import {
 
 interface IAddPaletteProps {
   visible: boolean;
-  onClose: () => void;
+  onClose: (createPaletteStatus?: number) => void;
 }
 
 const INITIAL_STATE = {
@@ -36,8 +36,8 @@ export function AddPalette({ onClose, visible }: IAddPaletteProps) {
     setName(INITIAL_STATE.name);
   }
 
-  function handleClose() {
-    onClose();
+  function handleClose(createPaletteStatus?: number) {
+    onClose(createPaletteStatus);
     resetState();
   }
 
@@ -45,14 +45,16 @@ export function AddPalette({ onClose, visible }: IAddPaletteProps) {
     setLoading(true);
     const data = { name, isPublic };
     try {
-      await wmcApi.post('palette/create', data, {
+      const response = await wmcApi.post('palette/create', data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      setLoading(false);
+      handleClose(response.status);
     } catch (error) {
       Alert.alert('Erro', error.response.data.message);
-    } finally {
       setLoading(false);
       handleClose();
     }

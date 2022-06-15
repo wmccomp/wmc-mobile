@@ -6,7 +6,6 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
   align-items: center;
   justify-content: flex-start;
-
   margin-top: 30px;
   margin-bottom: 30px;
 `;
@@ -15,7 +14,6 @@ export const Title = styled.Text`
   font-size: ${RFValue(30)}px;
   font-family: ${({ theme }) => theme.fonts.light};
   color: ${({ theme }) => theme.colors.title};
-
   margin: 30px 0 40px;
 `;
 

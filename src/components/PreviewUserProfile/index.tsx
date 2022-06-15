@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import { Alert, Modal, TouchableWithoutFeedback } from 'react-native';
+import { IPreviewUserProfileProps } from '../../@types';
 import { wmcApi } from '../../api';
 import { LoginContext } from '../../context/auth';
 import { Load } from '../Load';
@@ -17,10 +18,7 @@ import {
   Name,
   ProfilePicture,
 } from './styles';
-interface IPreviewUserProfileProps {
-  visible: boolean;
-  onClose: () => void;
-}
+
 export function PreviewUserProfile({
   onClose,
   visible,
@@ -34,7 +32,6 @@ export function PreviewUserProfile({
 
   function handleSettings() {
     onClose();
-
     navigate('Settings');
   }
 
@@ -77,8 +74,7 @@ export function PreviewUserProfile({
               ) : (
                 <>
                   <Name>{name}</Name>
-
-                  {<ProfilePicture source={{ uri: picture }} />}
+                  <ProfilePicture source={{ uri: picture }} />
                   <ButtonConfig>
                     <Config onPress={handleSettings}>Configurações</Config>
                   </ButtonConfig>

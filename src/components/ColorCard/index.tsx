@@ -3,7 +3,6 @@ import { useContext, useState } from 'react';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { IColorCardProps } from '../../@types';
-import { ForceUpdateContext } from '../../context/forceUpdate';
 import { PaletteContext } from '../../context/palette';
 import { ColorOptions } from '../ColorOptions';
 
@@ -48,7 +47,6 @@ export function ColorCard({
       await addRecentColor(color);
     } catch (error) {
       Alert.alert('Erro', 'Erro ao adicionar cor às cores recentes.');
-      console.log(error);
     }
   }
 

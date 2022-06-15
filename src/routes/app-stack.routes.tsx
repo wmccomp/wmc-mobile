@@ -4,10 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AppRoutes from './app.routes';
 import { Palette } from '../screens/Palette';
 import { IPalette } from '../@types';
+import { ExtractColor } from '../screens/ExtractColor';
 
 export type AppStackParamList = {
   AppRoutes: undefined;
   Palette: { palette: IPalette };
+  ExtractColor: { imgSource: string };
 };
 
 const { Navigator, Screen } = createStackNavigator<AppStackParamList>();
@@ -25,6 +27,14 @@ const AppStack: React.FC = () => (
       }}
       name="Palette"
       component={Palette}
+    />
+
+    <Screen
+      options={{
+        detachPreviousScreen: false,
+      }}
+      name="ExtractColor"
+      component={ExtractColor}
     />
   </Navigator>
 );

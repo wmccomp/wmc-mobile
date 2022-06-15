@@ -9,7 +9,6 @@ import {
   Title,
 } from './styles';
 import { PaletteContext } from '../../context/palette';
-import { ForceUpdateContext } from '../../context/forceUpdate';
 import { ModalCustom } from '../ModalCustom';
 import { InputEdit } from '../InputEdit';
 

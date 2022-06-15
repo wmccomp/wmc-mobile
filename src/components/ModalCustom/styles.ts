@@ -1,12 +1,9 @@
 import { TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
+import { InterfaceModalCustomButtonOption } from '../../@types';
 
-interface IColorCardProps {
-  color: string;
-}
-
-export const CloseModalArea = styled(TouchableOpacity)`
+export const CloseModalArea = styled.TouchableOpacity`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -47,9 +44,7 @@ export const ButtonLabel = styled.Text`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-export const ButtonOption = styled.TouchableOpacity<{
-  color: 'attention' | 'shape';
-}>`
+export const ButtonOption = styled.TouchableOpacity<InterfaceModalCustomButtonOption>`
   background-color: ${({ theme, color }) => theme.colors[color]};
   padding: ${RFValue(3)}px ${RFValue(35)}px;
   margin-top: ${RFValue(10)}px;

@@ -14,27 +14,15 @@ import {
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
-import { PreviewUserProfile } from '../PreviewUserProfile/inde';
-import { AppRoutesTabParamList } from '../../routes/app.routes';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { PreviewUserProfile } from '../PreviewUserProfile';
 import { AppStackParamList } from '../../routes/app-stack.routes';
-
-interface HeaderProps {
-  type: 'logo' | 'back';
-  title: string;
-  paletteScreen?: boolean;
-  option: boolean;
-}
-
-type AuthScreenProps = StackNavigationProp<RootStackParamList>;
-type BottomTabScreenProps = BottomTabNavigationProp<AppRoutesTabParamList>;
+import { HeaderProps } from '../../@types';
 
 export function Header({ type, title, option, paletteScreen }: HeaderProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const navigateAuth = useNavigation<AuthScreenProps>();
-  const navigateApp = useNavigation<BottomTabScreenProps>();
+  const navigateAuth: StackNavigationProp<RootStackParamList> = useNavigation();
 
-  const { goBack }: NavigationProp<AppStackParamList> = useNavigation();
+  const navigateStack: NavigationProp<AppStackParamList> = useNavigation();
 
   function handleOpenModal() {
     if (modalOpen === true) {
@@ -57,7 +45,11 @@ export function Header({ type, title, option, paletteScreen }: HeaderProps) {
     }
 
     if (paletteScreen) {
-      goBack();
+      navigateStack.goBack();
+    }
+
+    if (title === 'Extrair Cor da Imagem') {
+      navigateStack.goBack();
     }
   }
 

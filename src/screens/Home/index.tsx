@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { BackHandler, FlatList, Modal, Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
 import { IColor } from '../../@types';
 import { AddPalette } from '../../components/AddPalette';
 import { ColorCard } from '../../components/ColorCard';
@@ -8,7 +8,6 @@ import { FloatButton } from '../../components/FloatButton';
 import { Header } from '../../components/Header';
 import { Load } from '../../components/Load';
 import { PaletteCard } from '../../components/PaletteCard';
-import { ForceUpdateProvider } from '../../context/forceUpdate';
 import { PaletteContext } from '../../context/palette';
 
 import { Container, SubTitle, Title } from './styles';

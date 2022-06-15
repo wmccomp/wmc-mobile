@@ -1,26 +1,12 @@
-import CheckBox from 'expo-checkbox';
 import { useContext, useEffect, useState } from 'react';
-import { Alert, Modal, TouchableWithoutFeedback } from 'react-native';
+import { Alert } from 'react-native';
+import { IAddColorProps } from '../../@types';
 import { wmcApi } from '../../api';
 import { LoginContext } from '../../context/auth';
-import { generateValues } from '../../uitls';
+import { generateValues } from '../../utils';
 import { Load } from '../Load';
 import { ModalCustom } from '../ModalCustom';
-import {
-  Button,
-  ButtonLabel,
-  CloseModalArea,
-  Color,
-  Container,
-  Input,
-  Title,
-} from './styles';
-
-interface IAddColorProps {
-  visible: boolean;
-  onClose: () => void;
-  paletteId: string;
-}
+import { Button, ButtonLabel, Color, Input, Title } from './styles';
 
 const INITIAL_STATE = {
   color: '#FFFFFF',

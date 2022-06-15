@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
+import { Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { wmcApi } from '../../api';
 import { AxiosResponse } from 'axios';
-import md5 from 'md5';
 import {
   useNavigation,
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
 
+import { wmcApi } from '../../api';
+import { hashEmail } from '../../utils';
+
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
+import { Load } from '../../components/Load';
 
 import Logo from '../../assets/logo-large.svg';
 
 import { Container, Title, Form, Fields } from './styles';
-import { Alert } from 'react-native';
-import { Load } from '../../components/Load';
-
-const hashEmail = (email: string) => md5(email);
 
 export function Register() {
   const [username, setUsername] = useState('');
@@ -50,7 +49,7 @@ export function Register() {
         email,
         password,
         profilePicture: `https://www.gravatar.com/avatar/${hashEmail(
-          email
+          email,
         )}.png?s=100&d=identicon`,
       })
       .then(({ status }: AxiosResponse) => {
@@ -67,9 +66,9 @@ export function Register() {
       });
   }
 
-  const displaySuccess = () => {
+  function displaySuccess() {
     if (success) return Alert.alert('Usuário criado com sucesso!');
-  };
+  }
 
   return (
     <>

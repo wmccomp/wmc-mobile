@@ -1,5 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { IColor, IPalette, IPaletteCardProps } from '../../@types';
 import { PaletteContext } from '../../context/palette';
 import { AppStackParamList } from '../../routes/app-stack.routes';
@@ -36,20 +37,33 @@ export function PaletteCard({ paletteId }: IPaletteCardProps) {
     ));
   }
 
+  function renderCardWrapper() {
+    return (
+      <>
+        {Object.keys(palette).length ? (
+          <CardWrapper
+            onPress={() => {
+              navigate('Palette', { palette });
+            }}>
+            {loading ? <Load /> : renderColors()}
+          </CardWrapper>
+        ) : (
+          <View></View>
+        )}
+      </>
+    );
+  }
+
   useEffect(() => {
     setLoading(true);
-    getUserPalette(paletteId).then((palette) => {
-      setLoading(false);
-      setPalette(palette);
-      setColors(palette.colors);
-    });
+    getUserPalette(paletteId)
+      .then((palette) => {
+        setPalette(palette);
+        setColors(palette.colors);
+      })
+      .catch(() => setPalette({} as IPalette))
+      .finally(() => setLoading(false));
   }, []);
-  return (
-    <CardWrapper
-      onPress={() => {
-        navigate('Palette', { palette });
-      }}>
-      {loading ? <Load /> : renderColors()}
-    </CardWrapper>
-  );
+
+  return renderCardWrapper();
 }

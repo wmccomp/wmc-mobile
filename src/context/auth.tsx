@@ -1,24 +1,16 @@
-import { createContext, ReactNode, useMemo, useState } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  ReactNode,
+  useMemo,
+  useState,
+} from 'react';
+import { ILoginContext, ILoginData } from '../@types';
 import { wmcApi } from '../api';
-
-interface ILoginData {
-  email: string;
-  password: string;
-}
-
-interface ILoginContext {
-  token: string;
-  logIn: (data: ILoginData) => Promise<void>;
-  logOut: () => void;
-}
-
-interface LoginProviderProps {
-  children: ReactNode;
-}
 
 export const LoginContext = createContext<ILoginContext>({} as ILoginContext);
 
-export function LoginProvider({ children }: LoginProviderProps) {
+export function LoginProvider({ children }: PropsWithChildren<{}>) {
   const [token, setToken] = useState('');
 
   const logIn = async ({ email, password }: ILoginData) => {

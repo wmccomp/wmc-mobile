@@ -7,7 +7,6 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
   align-items: center;
   justify-content: flex-start;
-
   margin-top: 30px;
   margin-bottom: 30px;
 `;

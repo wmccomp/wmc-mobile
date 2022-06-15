@@ -1,5 +1,6 @@
 import { IColor } from '../@types';
 import uuid from 'react-native-uuid';
+import md5 from 'md5';
 
 export function generateValues(color: string) {
   const colorSplit = color.substring(1).match(/.{2}/g);
@@ -24,7 +25,9 @@ export function createColor(color: string, title?: string): IColor {
     values: generateValues(color),
   };
 
-  console.log(result);
-
   return result;
+}
+
+export function hashEmail(email: string) {
+  return md5(email);
 }

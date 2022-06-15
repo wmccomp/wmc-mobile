@@ -1,8 +1,5 @@
 import { createContext, PropsWithChildren } from 'react';
-
-interface IForceUpdateProviderProps {
-  forceUpdate: () => void;
-}
+import { IForceUpdateProviderProps } from '../@types';
 
 export const ForceUpdateContext = createContext<IForceUpdateProviderProps>(
   {} as IForceUpdateProviderProps,

@@ -1,9 +1,8 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { FlatList, TouchableOpacity } from 'react-native';
 
-import { IPalette } from '../../@types';
+import { IPalette, IPalettePreviewProps } from '../../@types';
 import { PaletteContext } from '../../context/palette';
 import { AppStackParamList } from '../../routes/app-stack.routes';
 import { ColorCard } from '../ColorCard';
@@ -15,10 +14,6 @@ import {
   SubMessage,
 } from './styles';
 import { FavoriteButton } from '../FavoriteButton';
-
-interface IPalettePreviewProps {
-  palette: IPalette;
-}
 
 export function PalettePreview({ palette }: IPalettePreviewProps) {
   const [showPaletteOptions, setShowPaletteOptions] = useState(false);

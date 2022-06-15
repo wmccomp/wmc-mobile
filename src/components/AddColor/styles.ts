@@ -1,12 +1,12 @@
-import { TextInput, TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
-interface IColorCardProps {
+interface IAddColorColor {
   color: string;
 }
 
-export const CloseModalArea = styled(TouchableOpacity)`
+export const CloseModalArea = styled.TouchableOpacity`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -33,7 +33,7 @@ export const Title = styled.Text`
   text-align: center;
 `;
 
-export const Input = styled(TextInput)`
+export const Input = styled.TextInput`
   width: 100%;
   height: ${RFValue(40)}px;
   border: ${RFValue(2)}px solid ${({ theme }) => theme.colors.title};
@@ -61,9 +61,9 @@ export const ButtonLabel = styled.Text`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-export const Color = styled.View`
+export const Color = styled.View<IAddColorColor>`
   border: 2px solid black;
-  background-color: ${({ color }: IColorCardProps) => color};
+  background-color: ${({ color }) => color};
   width: ${RFValue(75)}px;
   height: ${RFValue(75)}px;
 `;

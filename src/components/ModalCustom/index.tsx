@@ -1,12 +1,8 @@
 import { PropsWithChildren } from 'react';
 import { Modal, TouchableWithoutFeedback } from 'react-native';
+import { IModalCustomProps } from '../../@types';
 
 import { CloseModalArea, Container } from './styles';
-
-interface IModalCustomProps {
-  visible: boolean;
-  onClose: () => void;
-}
 
 export function ModalCustom({
   onClose,

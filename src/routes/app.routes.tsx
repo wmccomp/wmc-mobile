@@ -8,7 +8,6 @@ import { SplashContext } from '../context/splash';
 import { SplashScreen } from '../screens/SplashScreen';
 import { Home } from '../screens/Home';
 import { Settings } from '../screens/Settings';
-import { SearchPalette } from '../screens/SearchPalette';
 import { MyPalettes } from '../screens/MyPalettes';
 import { ColorPicker } from '../screens/ColorPicker';
 
@@ -74,7 +73,12 @@ const AppRoutes = () => {
         }}
       />
 
-      <Screen
+      {/**
+       *
+       * TODO: Futura implementação da tela de pesquisa
+       * */}
+
+      {/* <Screen
         name="SearchPalette"
         component={SearchPalette}
         options={{
@@ -83,7 +87,7 @@ const AppRoutes = () => {
             <MaterialIcons name="search" size={size} color={color} />
           ),
         }}
-      />
+      /> */}
 
       <Screen
         name="MyPalettes"

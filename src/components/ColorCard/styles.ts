@@ -1,11 +1,9 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
+import { IColorCardColor } from '../../@types';
 
-interface IColorCardProps {
-  color: string;
-}
-export const Color = styled.TouchableOpacity`
-  background-color: ${({ color }: IColorCardProps) => color};
+export const Color = styled.TouchableOpacity<IColorCardColor>`
+  background-color: ${({ color }) => color};
   width: ${RFValue(75)}px;
   height: ${RFValue(75)}px;
 `;

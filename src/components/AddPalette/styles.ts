@@ -1,8 +1,7 @@
-import { TextInput, TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
-export const CloseModalArea = styled(TouchableOpacity)`
+export const CloseModalArea = styled.TouchableOpacity`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -20,7 +19,7 @@ export const Title = styled.Text`
   text-align: center;
 `;
 
-export const Input = styled(TextInput)`
+export const Input = styled.TextInput`
   width: 100%;
   height: ${RFValue(40)}px;
   border: ${RFValue(2)}px solid ${({ theme }) => theme.colors.title};

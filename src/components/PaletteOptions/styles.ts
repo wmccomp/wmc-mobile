@@ -1,10 +1,6 @@
-import { TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
-
-interface IColorCardProps {
-  color: string;
-}
+import { IPaletteOptionsButtonOption } from '../../@types';
 
 export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
@@ -28,9 +24,7 @@ export const ButtonLabel = styled.Text`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-export const ButtonOption = styled.TouchableOpacity<{
-  color: 'attention' | 'shape';
-}>`
+export const ButtonOption = styled.TouchableOpacity<IPaletteOptionsButtonOption>`
   background-color: ${({ theme, color }) => theme.colors[color]};
   padding: ${RFValue(3)}px ${RFValue(35)}px;
   margin-top: ${RFValue(10)}px;

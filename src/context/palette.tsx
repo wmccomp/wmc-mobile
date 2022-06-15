@@ -14,6 +14,7 @@ import {
   IGetPalettesDataAxios,
   IPalette,
   IPaletteContext,
+  IUpdatePalette,
   TRecentColors,
   TRecentPalettes,
 } from '../@types';
@@ -51,6 +52,7 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
       );
 
       setPalettes(data.palettes);
+      return data.palettes;
     } catch (err) {
       Alert.alert('Erro', err.response.data.message);
     }
@@ -87,7 +89,7 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     await getUserPalettes();
   }
 
-  async function updatePalette(paletteId: string, data: { name: string }) {
+  async function updatePalette(paletteId: string, data: IUpdatePalette) {
     await wmcApi.put(`palette/${paletteId}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,

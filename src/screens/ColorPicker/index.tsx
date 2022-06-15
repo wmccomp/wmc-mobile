@@ -1,45 +1,46 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Text } from 'react-native';
 
 import { Header } from '../../components/Header';
-import { ColorExtract } from '../../components/ColorExtract';
-import { Button, ButtonLabel, Container } from './styles';
-
-export interface IImagePickerResult {
-  cancelled: boolean;
-  height: number;
-  type: string;
-  uri: string;
-  width: number;
-}
+import { Button, ButtonLabel, Container, Icon } from './styles';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { AppStackParamList } from '../../routes/app-stack.routes';
+import { IImagePickerResult } from '../../@types';
 
 export function ColorPicker() {
-  const [image, setImage] = useState('');
+  const { navigate }: NavigationProp<AppStackParamList, 'ExtractColor'> =
+    useNavigation();
 
   async function pickImage() {
     let result: IImagePickerResult = (await ImagePicker.launchImageLibraryAsync(
       {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [9, 16],
+        aspect: [5, 5],
         quality: 1,
       },
     )) as IImagePickerResult;
-
-    console.log(result);
-    setImage((prev) => (result.cancelled ? prev : result.uri));
+    if (!result.cancelled) {
+      navigate('ExtractColor', {
+        imgSource: result.uri,
+      });
+    }
   }
 
   async function cameraImage() {
     let result: IImagePickerResult = (await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [9, 16],
+      aspect: [5, 5],
       quality: 1,
     })) as IImagePickerResult;
 
-    setImage((prev) => (result.cancelled ? prev : result.uri));
+    if (!result.cancelled) {
+      navigate('ExtractColor', {
+        imgSource: result.uri,
+      });
+    }
   }
 
   async function getPermissions() {
@@ -55,24 +56,21 @@ export function ColorPicker() {
     }
   }
 
-  function closeModal() {
-    setImage('');
-  }
-
   useEffect(() => {
     getPermissions();
   }, []);
 
   return (
     <>
-      <ColorExtract imgSource={image} onClose={closeModal} visible={!!image} />
-      <Header type="logo" title="Where's My Color?" option={true} />
+      <Header type="logo" title="Cor Inteligente" option={true} />
       <Container>
         <Button mode="select" onPress={pickImage}>
+          <Icon name="upload" />
           <ButtonLabel>Selecionar Imagem</ButtonLabel>
         </Button>
         <Text>ou</Text>
         <Button mode="camera" onPress={cameraImage}>
+          <Icon name="camera" />
           <ButtonLabel>Usar Câmera</ButtonLabel>
         </Button>
       </Container>

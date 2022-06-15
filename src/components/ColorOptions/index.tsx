@@ -5,14 +5,7 @@ import { ButtonLabel, ButtonOption, Title } from './styles';
 import { PaletteContext } from '../../context/palette';
 import { ForceUpdateContext } from '../../context/forceUpdate';
 import { ModalCustom } from '../ModalCustom';
-
-interface IColorOptionsProps {
-  visible: boolean;
-  onClose: () => void;
-  paletteId: string;
-  colorId: string;
-  copyRGB: () => void;
-}
+import { IColorOptionsProps } from '../../@types';
 
 export function ColorOptions({
   onClose,
