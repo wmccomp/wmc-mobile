@@ -117,6 +117,7 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
       easyAccessStorageJSON,
     );
 
+    console.log(userEasyAccess);
     console.log(easyAccessStorage);
     const userEAS = easyAccessStorage.find((usr) => user._id === usr.userId);
 
