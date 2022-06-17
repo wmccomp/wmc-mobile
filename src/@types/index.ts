@@ -34,10 +34,8 @@ export interface IGetPaletteDataAxios {
 }
 
 export interface IPaletteContext {
+  userEasyAccess: IUserEasyAccess;
   palettes: IPalette[];
-  recentColors: IColor[];
-  recentPalettes: IPalette[];
-  favoritePalettes: IPalette[];
   getUserPalettes: () => Promise<IPalette[]>;
   shouldUpdatePalettes: boolean;
   setShouldUpdatePalettes: Dispatch<SetStateAction<boolean>>;
@@ -46,12 +44,16 @@ export interface IPaletteContext {
   deletePalette: (paletteId: string) => Promise<void>;
   updatePalette: (paletteId: string, data: IUpdatePalette) => Promise<void>;
   addRecentColor: (color: IColor) => Promise<void>;
-  getRecentColors: () => Promise<void>;
   addRecentPalette: (palette: IPalette) => Promise<void>;
-  getRecentPalettes: () => Promise<void>;
   addFavoritePalette: (palette: IPalette) => Promise<void>;
   removeFavoritePalette: (palette: IPalette) => Promise<void>;
-  getFavoritePalettes: () => Promise<void>;
+}
+
+export interface IUserEasyAccess {
+  userId: string;
+  recentColors: IColor[];
+  recentPalettes: IPalette[];
+  favoritePalettes: IPalette[];
 }
 
 export type TRecentColors = IColor[];
@@ -111,6 +113,7 @@ export interface ILoginData {
 
 export interface ILoginContext {
   token: string;
+  user: IUserProfile;
   logIn: (data: ILoginData) => Promise<void>;
   logOut: () => void;
 }
@@ -186,4 +189,13 @@ export interface IAddColorProps {
   visible: boolean;
   onClose: () => void;
   paletteId: string;
+}
+
+export interface IUserProfile {
+  email: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
+  profilePicture: string;
+  _id: string;
 }

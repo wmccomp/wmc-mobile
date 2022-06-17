@@ -18,14 +18,7 @@ export function Home() {
   const [loadingPalettes, setLoadingPalettes] = useState(false);
   const [loadingFavoritePalettes, setLoadingFavoritePalettes] = useState(false);
 
-  const {
-    recentColors,
-    recentPalettes,
-    favoritePalettes,
-    getRecentColors,
-    getRecentPalettes,
-    getFavoritePalettes,
-  } = useContext(PaletteContext);
+  const { userEasyAccess } = useContext(PaletteContext);
 
   function closeModal() {
     setShowAddPalette(false);
@@ -44,11 +37,11 @@ export function Home() {
   );
 
   function renderRecentColors() {
-    if (!recentColors.length) {
+    if (!userEasyAccess.recentColors.length) {
       return <SubTitle>Sem Cores Recentes</SubTitle>;
     }
 
-    const colorsToPrint = [...recentColors];
+    const colorsToPrint = [...userEasyAccess.recentColors];
 
     return (
       <FlatList
@@ -62,11 +55,11 @@ export function Home() {
   }
 
   function renderRecentPalettes() {
-    if (!recentPalettes.length) {
+    if (!userEasyAccess.recentPalettes.length) {
       return <SubTitle>Sem Paletas Recentes</SubTitle>;
     }
 
-    const palettesToPrint = [...recentPalettes];
+    const palettesToPrint = [...userEasyAccess.recentPalettes];
 
     return (
       <FlatList
@@ -80,11 +73,11 @@ export function Home() {
   }
 
   function renderFavoritePalettes() {
-    if (!favoritePalettes.length) {
+    if (!userEasyAccess.favoritePalettes.length) {
       return <SubTitle>Sem Paletas Favoritas</SubTitle>;
     }
 
-    const palettesToPrint = [...favoritePalettes];
+    const palettesToPrint = [...userEasyAccess.favoritePalettes];
 
     return (
       <FlatList
@@ -96,16 +89,6 @@ export function Home() {
       />
     );
   }
-
-  useEffect(() => {
-    setLoadingColors(true);
-    setLoadingPalettes(true);
-    setLoadingFavoritePalettes(true);
-
-    getRecentColors().then(() => setLoadingColors(false));
-    getRecentPalettes().then(() => setLoadingPalettes(false));
-    getFavoritePalettes().then(() => setLoadingFavoritePalettes(false));
-  }, []);
 
   return (
     <>

@@ -5,10 +5,10 @@ import { PaletteContext } from '../../context/palette';
 import { FavoriteButtonStyle } from './styles';
 
 export function FavoriteButton({ palette }: IFavoriteButtonProps) {
-  const { favoritePalettes, addFavoritePalette, removeFavoritePalette } =
+  const { userEasyAccess, addFavoritePalette, removeFavoritePalette } =
     useContext(PaletteContext);
   const [favorite, setFavorite] = useState(
-    favoritePalettes.some((pal) => palette._id === pal._id),
+    userEasyAccess.favoritePalettes.some((pal) => palette._id === pal._id),
   );
 
   async function handleToggleFavoriteButton() {
