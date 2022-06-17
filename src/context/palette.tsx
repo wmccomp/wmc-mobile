@@ -47,9 +47,6 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
   const [userEasyAccess, setUserEasyAccess] = useState<IUserEasyAccess>(
     USER_EASY_ACCESS_INITIAL_STATE,
   );
-  const [recentColors, setRecentColors] = useState<IColor[]>([]);
-  const [recentPalettes, setRecentPalettes] = useState<IPalette[]>([]);
-  const [favoritePalettes, setFavoritePalettes] = useState<IPalette[]>([]);
 
   async function getUserPalettes() {
     try {
@@ -110,6 +107,9 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     await getUserPalettes();
   }
 
+  console.log('%c+++++++++++++++++++++++++++++++++++++++', 'color: red');
+  console.log('USER', userEasyAccess);
+  console.log('%c+++++++++++++++++++++++++++++++++++++++', 'color: red');
   async function getEasyAccessStorage() {
     const easyAccessStorageJSON =
       (await AsyncStorage.getItem(STORAGE_EASY_ACCESS)) || '[]';
@@ -117,12 +117,16 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
       easyAccessStorageJSON,
     );
 
-    console.log(userEasyAccess);
-    console.log(easyAccessStorage);
+    console.log('%c=====================================', 'color: green');
+    console.log('STORAGE', easyAccessStorage);
+    console.log('%c=====================================', 'color: green');
     const userEAS = easyAccessStorage.find((usr) => user._id === usr.userId);
 
     if (!userEAS) {
-      setUserEasyAccess(userEasyAccess);
+      setUserEasyAccess({
+        ...USER_EASY_ACCESS_INITIAL_STATE,
+        userId: user._id,
+      });
       return userEasyAccess;
     }
 
@@ -234,11 +238,12 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
   }, [shouldUpdatePalettes]);
 
   useEffect(() => {
+    setUserEasyAccess((prev) => ({ ...prev, userId: user._id }));
+
     if (user._id) {
-      setUserEasyAccess((prev) => ({ ...prev, userId: user._id }));
       getEasyAccessStorage();
     }
-  }, [user]);
+  }, [user._id]);
 
   return (
     <PaletteContext.Provider

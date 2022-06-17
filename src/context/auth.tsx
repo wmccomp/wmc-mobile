@@ -31,6 +31,7 @@ export function LoginProvider({ children }: PropsWithChildren<{}>) {
 
   const logOut = () => {
     setToken('');
+    setUser(USER_PROFILE_INITIAL_STATE);
   };
 
   const context = {
