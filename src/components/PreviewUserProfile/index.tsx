@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { Modal, TouchableWithoutFeedback } from 'react-native';
 import { IPreviewUserProfileProps } from '../../@types';
 import { LoginContext } from '../../context/auth';
+import { SplashContext } from '../../context/splash';
 import {
   ButtonConfig,
   CloseModalArea,
@@ -23,6 +24,7 @@ export function PreviewUserProfile({
 }: IPreviewUserProfileProps) {
   const { navigate }: NavigationProp<ParamListBase> = useNavigation();
   const { logOut, user } = useContext(LoginContext);
+  const { setShowSplash } = useContext(SplashContext);
 
   function handleSettings() {
     onClose();
@@ -31,6 +33,7 @@ export function PreviewUserProfile({
 
   function handleLogout() {
     logOut();
+    setShowSplash(true);
   }
 
   return (
