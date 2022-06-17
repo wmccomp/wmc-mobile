@@ -120,7 +120,10 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     console.log(easyAccessStorage);
     const userEAS = easyAccessStorage.find((usr) => user._id === usr.userId);
 
-    if (!userEAS) return userEasyAccess;
+    if (!userEAS) {
+      setUserEasyAccess(userEasyAccess);
+      return userEasyAccess;
+    }
 
     setUserEasyAccess(userEAS);
     return userEAS;
