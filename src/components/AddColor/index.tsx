@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { IAddColorProps } from '../../@types';
 import { wmcApi } from '../../api';
 import { LoginContext } from '../../context/auth';
@@ -40,8 +41,19 @@ export function AddColor({ onClose, visible, paletteId }: IAddColorProps) {
           Authorization: `Bearer ${token}`,
         },
       });
+      Toast.show({
+        type: 'success',
+        text1: 'Sucesso',
+        text2: 'Cor criada com sucesso!',
+        visibilityTime: 3000,
+      });
     } catch (error) {
-      Alert.alert('Erro', error.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: error.response.data.message,
+        visibilityTime: 3000,
+      });
     } finally {
       setLoading(false);
       handleClose();

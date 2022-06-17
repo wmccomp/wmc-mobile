@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 import { LoginContext } from '../../context/auth';
 
@@ -19,28 +20,44 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
-  const [defaultError, setDefaultError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { logIn } = useContext(LoginContext);
 
   async function handleLogin() {
     if (!email) {
-      return Alert.alert('Digite seu email!');
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Digite seu email!',
+        visibilityTime: 3000,
+      });
+      return;
     }
 
     if (!password) {
-      return Alert.alert('Digite sua senha!');
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Digite sua senha!',
+        visibilityTime: 3000,
+      });
+      return;
     }
 
     setLoading(true);
     setInvalidEmail(false);
     setInvalidPassword(false);
-    setDefaultError('');
 
     logIn({ email, password }).catch((error) => {
       setLoading(false);
-      Alert.alert('Erro', error.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: error.response.data.message,
+        visibilityTime: 3000,
+      });
+      return;
     });
   }
 

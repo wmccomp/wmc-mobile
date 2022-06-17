@@ -1,6 +1,5 @@
 import * as Clipboard from 'expo-clipboard';
 import { useContext, useState } from 'react';
-import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { IColorCardProps } from '../../@types';
 import { PaletteContext } from '../../context/palette';
@@ -20,12 +19,6 @@ export function ColorCard({
 
   function copyToClipboard(colorVal: string) {
     Clipboard.setString(colorVal);
-    Toast.show({
-      type: 'success',
-      text1: 'Sucesso!',
-      text2: 'Cor copiada para área de transferência',
-      visibilityTime: 2000,
-    });
   }
 
   function closeModal() {
@@ -33,6 +26,12 @@ export function ColorCard({
   }
 
   function handleCopyRGB() {
+    Toast.show({
+      type: 'info',
+      text1: 'Copiado RGB',
+      text2: 'Cor copiada para área de transferência',
+      visibilityTime: 2000,
+    });
     copyToClipboard(color.values.rgb);
   }
 
@@ -41,12 +40,23 @@ export function ColorCard({
   }
 
   async function handleColorPress() {
+    Toast.show({
+      type: 'info',
+      text1: 'Copiado Hexadecimal',
+      text2: 'Cor copiada para área de transferência',
+      visibilityTime: 2000,
+    });
     copyToClipboard(color.values.hex);
 
     try {
       await addRecentColor(color);
     } catch (error) {
-      Alert.alert('Erro', 'Erro ao adicionar cor às cores recentes.');
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Erro ao adicionar cor às cores recentes.',
+        visibilityTime: 2000,
+      });
     }
   }
 

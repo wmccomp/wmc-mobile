@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { Load } from '../Load';
 import { ButtonLabel, ButtonOption, Title } from './styles';
 import { PaletteContext } from '../../context/palette';
@@ -24,8 +26,19 @@ export function ColorOptions({
 
     try {
       await deleteColor(paletteId, colorId);
+      Toast.show({
+        type: 'info',
+        text1: 'Cor removida',
+        text2: 'Cor removida com sucesso.',
+        visibilityTime: 2000,
+      });
     } catch (error) {
-      Alert.alert('Erro', error.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: error.response.data.message,
+        visibilityTime: 3000,
+      });
     } finally {
       setLoading(false);
       await getUserPalettes();

@@ -7,6 +7,7 @@ import {
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 import { wmcApi } from '../../api';
 import { hashEmail } from '../../utils';
@@ -38,11 +39,23 @@ export function Register() {
     setLoading(true);
 
     if (validateEmail(email) === false) {
-      return Alert.alert('Digite um email válido!');
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Digite um email válido!',
+        visibilityTime: 3000,
+      });
+      return;
     }
 
     if (password.length <= 5) {
-      return Alert.alert('Digite um password com mais de 6 caracteres!');
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Digite um password com mais de 6 caracteres!',
+        visibilityTime: 3000,
+      });
+      return;
     }
 
     wmcApi
@@ -56,6 +69,12 @@ export function Register() {
       })
       .then(({ status }: AxiosResponse) => {
         if (status === 201) {
+          Toast.show({
+            type: 'success',
+            text1: 'Sucesso',
+            text2: 'Usuário criado com sucesso!',
+            visibilityTime: 3000,
+          });
           setUsername('');
           setEmail('');
           setPassword('');
@@ -64,13 +83,15 @@ export function Register() {
         navigate('Login');
       })
       .catch((err) => {
-        console.timeLog(err.response.message);
+        Toast.show({
+          type: 'error',
+          text1: 'Erro',
+          text2: err.response.data.message,
+          visibilityTime: 3000,
+        });
+        return;
       })
       .finally(() => setLoading(false));
-  }
-
-  function displaySuccess() {
-    if (success) return Alert.alert('Usuário criado com sucesso!');
   }
 
   return (
@@ -107,8 +128,6 @@ export function Register() {
                 onChangeText={(value) => setPassword(value)}
               />
             </Fields>
-
-            {displaySuccess()}
 
             {loading ? (
               <Load />

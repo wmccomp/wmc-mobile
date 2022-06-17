@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import {
   IColor,
@@ -57,7 +58,12 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
       setPalettes(data.palettes);
       return data.palettes;
     } catch (err) {
-      Alert.alert('Erro', err.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: err.response.data.message,
+        visibilityTime: 3000,
+      });
     }
   }
 

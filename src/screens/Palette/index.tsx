@@ -1,6 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { IColor } from '../../@types';
 import { AddColor } from '../../components/AddColor';
 import { ColorCard } from '../../components/ColorCard';
@@ -33,7 +35,12 @@ export function Palette() {
       const { colors: newColors } = await getUserPalette(palette._id);
       setColors(newColors);
     } catch (error) {
-      Alert.alert('Erro', error.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: error.response.data.message,
+        visibilityTime: 3000,
+      });
     }
   }
 

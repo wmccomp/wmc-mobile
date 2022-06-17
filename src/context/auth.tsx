@@ -6,6 +6,8 @@ import {
   useState,
 } from 'react';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { ILoginContext, ILoginData, IUserProfile } from '../@types';
 import { wmcApi } from '../api';
 
@@ -53,7 +55,12 @@ export function LoginProvider({ children }: PropsWithChildren<{}>) {
           setUser(user);
         })
         .catch((err) => {
-          Alert.alert('Erro', err.response.data.message);
+          Toast.show({
+            type: 'error',
+            text1: 'Erro',
+            text2: err.response.data.message,
+            visibilityTime: 3000,
+          });
         });
     }
   }, [token]);
