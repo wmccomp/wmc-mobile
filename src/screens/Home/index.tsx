@@ -11,6 +11,7 @@ import { Header } from '../../components/Header';
 import { Load } from '../../components/Load';
 import { PaletteCard } from '../../components/PaletteCard';
 import { PaletteContext } from '../../context/palette';
+import { SplashContext } from '../../context/splash';
 
 import { Container, SubTitle, Title } from './styles';
 
@@ -21,6 +22,7 @@ export function Home() {
   const [loadingFavoritePalettes, setLoadingFavoritePalettes] = useState(false);
 
   const { userEasyAccess } = useContext(PaletteContext);
+  const { showSplash } = useContext(SplashContext);
 
   function closeModal() {
     setShowAddPalette(false);
@@ -93,12 +95,13 @@ export function Home() {
   }
 
   useEffect(() => {
-    Toast.show({
-      type: 'info',
-      text1: 'Bem vindo!',
-      text2: 'Seja bem vindo à sua galeria',
-      visibilityTime: 2000,
-    });
+    showSplash &&
+      Toast.show({
+        type: 'info',
+        text1: 'Bem vindo!',
+        text2: 'Seja bem vindo à sua galeria',
+        visibilityTime: 2000,
+      });
   }, []);
 
   return (
