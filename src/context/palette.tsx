@@ -16,8 +16,6 @@ import {
   IPaletteContext,
   IUpdatePalette,
   IUserEasyAccess,
-  TRecentColors,
-  TRecentPalettes,
 } from '../@types';
 import { wmcApi } from '../api';
 import { LoginContext } from './auth';
@@ -27,9 +25,6 @@ export const PaletteContext = createContext<IPaletteContext>(
 );
 
 const STORAGE_EASY_ACCESS = '@easy_access_storage';
-const STORAGE_RECENT_COLORS_KEY = '@recent_colors';
-const STORAGE_RECENT_PALETTES_KEY = '@recent_palettes';
-const STORAGE_FAVORITE_PALETTES_KEY = '@favorite_palettes';
 const MAX_RECENT_COLORS = 6;
 const MAX_RECENT_PALETTES = 6;
 const USER_EASY_ACCESS_INITIAL_STATE = {
@@ -107,9 +102,6 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     await getUserPalettes();
   }
 
-  console.log('%c+++++++++++++++++++++++++++++++++++++++', 'color: red');
-  console.log('USER', userEasyAccess);
-  console.log('%c+++++++++++++++++++++++++++++++++++++++', 'color: red');
   async function getEasyAccessStorage() {
     const easyAccessStorageJSON =
       (await AsyncStorage.getItem(STORAGE_EASY_ACCESS)) || '[]';
@@ -117,9 +109,6 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
       easyAccessStorageJSON,
     );
 
-    console.log('%c=====================================', 'color: green');
-    console.log('STORAGE', easyAccessStorage);
-    console.log('%c=====================================', 'color: green');
     const userEAS = easyAccessStorage.find((usr) => user._id === usr.userId);
 
     if (!userEAS) {
