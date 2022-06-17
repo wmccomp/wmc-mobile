@@ -15,6 +15,7 @@ import {
   IPalette,
   IPaletteContext,
   IUpdatePalette,
+  IUserEasyAccess,
   TRecentColors,
   TRecentPalettes,
 } from '../@types';
@@ -25,20 +26,30 @@ export const PaletteContext = createContext<IPaletteContext>(
   {} as IPaletteContext,
 );
 
+const STORAGE_EASY_ACCESS = '@easy_access_storage';
 const STORAGE_RECENT_COLORS_KEY = '@recent_colors';
 const STORAGE_RECENT_PALETTES_KEY = '@recent_palettes';
 const STORAGE_FAVORITE_PALETTES_KEY = '@favorite_palettes';
 const MAX_RECENT_COLORS = 6;
 const MAX_RECENT_PALETTES = 6;
+const USER_EASY_ACCESS_INITIAL_STATE = {
+  userId: '',
+  recentColors: [],
+  recentPalettes: [],
+  favoritePalettes: [],
+};
 
 export function PaletteProvider({ children }: PropsWithChildren<{}>) {
+  const { token, user } = useContext(LoginContext);
+
   const [palettes, setPalettes] = useState<IPalette[]>([]);
   const [shouldUpdatePalettes, setShouldUpdatePalettes] = useState(false);
+  const [userEasyAccess, setUserEasyAccess] = useState<IUserEasyAccess>(
+    USER_EASY_ACCESS_INITIAL_STATE,
+  );
   const [recentColors, setRecentColors] = useState<IColor[]>([]);
   const [recentPalettes, setRecentPalettes] = useState<IPalette[]>([]);
   const [favoritePalettes, setFavoritePalettes] = useState<IPalette[]>([]);
-
-  const { token } = useContext(LoginContext);
 
   async function getUserPalettes() {
     try {
@@ -99,106 +110,116 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     await getUserPalettes();
   }
 
-  async function addRecentColor(color: IColor) {
-    const recentColorsJSON =
-      (await AsyncStorage.getItem(STORAGE_RECENT_COLORS_KEY)) || '[]';
-    const colors: TRecentColors = JSON.parse(recentColorsJSON);
+  async function getEasyAccessStorage() {
+    const easyAccessStorageJSON =
+      (await AsyncStorage.getItem(STORAGE_EASY_ACCESS)) || '[]';
+    const easyAccessStorage: IUserEasyAccess[] = JSON.parse(
+      easyAccessStorageJSON,
+    );
 
-    if (colors.some((recentColor) => recentColor._id === color._id)) {
+    console.log(easyAccessStorage);
+    const userEAS = easyAccessStorage.find((usr) => user._id === usr.userId);
+
+    if (!userEAS) return userEasyAccess;
+
+    setUserEasyAccess(userEAS);
+    return userEAS;
+  }
+
+  async function saveEasyAccessStorage() {
+    const easyAccessStorageJSON =
+      (await AsyncStorage.getItem(STORAGE_EASY_ACCESS)) || '[]';
+    const easyAccessStorage: IUserEasyAccess[] = JSON.parse(
+      easyAccessStorageJSON,
+    );
+
+    const userEAS = easyAccessStorage.find(
+      (usr) => userEasyAccess.userId === usr.userId,
+    );
+
+    if (!userEAS) {
+      await AsyncStorage.setItem(
+        STORAGE_EASY_ACCESS,
+        JSON.stringify([...easyAccessStorage, userEasyAccess]),
+      );
       return;
     }
 
-    if (colors.length >= MAX_RECENT_COLORS) {
-      colors.shift();
-    }
+    const newStorage = easyAccessStorage.map((usr) => {
+      if (usr.userId === userEasyAccess.userId) return userEasyAccess;
+      else return usr;
+    });
 
-    colors.push(color);
-
-    await AsyncStorage.setItem(
-      STORAGE_RECENT_COLORS_KEY,
-      JSON.stringify(colors),
-    );
+    await AsyncStorage.setItem(STORAGE_EASY_ACCESS, JSON.stringify(newStorage));
   }
 
-  async function getRecentColors() {
-    const recentColorsJSON =
-      (await AsyncStorage.getItem(STORAGE_RECENT_COLORS_KEY)) || '[]';
-    const colors: TRecentColors = JSON.parse(recentColorsJSON);
+  async function addRecentColor(color: IColor) {
+    if (
+      userEasyAccess.recentColors.some(
+        (recentColor) => recentColor._id === color._id,
+      )
+    ) {
+      return;
+    }
 
-    setRecentColors(colors);
+    if (userEasyAccess.recentColors.length >= MAX_RECENT_COLORS) {
+      userEasyAccess.recentColors.shift();
+    }
+
+    userEasyAccess.recentColors.push(color);
+
+    await saveEasyAccessStorage();
   }
 
   async function addRecentPalette(palette: IPalette) {
-    const recentPalettesJSON =
-      (await AsyncStorage.getItem(STORAGE_RECENT_PALETTES_KEY)) || '[]';
-    const palettes: TRecentPalettes = JSON.parse(recentPalettesJSON);
-
-    if (palettes.some((recentPalette) => recentPalette._id === palette._id)) {
+    if (
+      userEasyAccess.recentPalettes.some(
+        (recentPalette) => recentPalette._id === palette._id,
+      )
+    ) {
       return;
     }
 
-    if (palettes.length >= MAX_RECENT_PALETTES) {
-      palettes.shift();
+    if (userEasyAccess.recentPalettes.length >= MAX_RECENT_PALETTES) {
+      userEasyAccess.recentPalettes.shift();
     }
 
-    palettes.push(palette);
+    userEasyAccess.recentPalettes.push(palette);
 
-    await AsyncStorage.setItem(
-      STORAGE_RECENT_PALETTES_KEY,
-      JSON.stringify(palettes),
-    );
-  }
-
-  async function getRecentPalettes() {
-    const recentPalettesJSON =
-      (await AsyncStorage.getItem(STORAGE_RECENT_PALETTES_KEY)) || '[]';
-    const palettes: TRecentPalettes = JSON.parse(recentPalettesJSON);
-
-    setRecentPalettes(palettes);
+    await saveEasyAccessStorage();
   }
 
   async function addFavoritePalette(palette: IPalette) {
-    const favoritePalettesJSON =
-      (await AsyncStorage.getItem(STORAGE_FAVORITE_PALETTES_KEY)) || '[]';
-    const palettes: TRecentPalettes = JSON.parse(favoritePalettesJSON);
-
     if (
-      palettes.some((favoritePalette) => favoritePalette._id === palette._id)
+      userEasyAccess.favoritePalettes.some(
+        (favoritePalette) => favoritePalette._id === palette._id,
+      )
     ) {
       return;
     }
 
-    palettes.push(palette);
+    userEasyAccess.favoritePalettes.push(palette);
 
-    await AsyncStorage.setItem(
-      STORAGE_FAVORITE_PALETTES_KEY,
-      JSON.stringify(palettes),
-    );
+    await saveEasyAccessStorage();
   }
 
   async function removeFavoritePalette(palette: IPalette) {
-    const favoritePalettesJSON =
-      (await AsyncStorage.getItem(STORAGE_FAVORITE_PALETTES_KEY)) || '[]';
-    const palettes: TRecentPalettes = JSON.parse(favoritePalettesJSON);
-
     if (
-      !palettes.some((favoritePalette) => favoritePalette._id === palette._id)
+      !userEasyAccess.favoritePalettes.some(
+        (favoritePalette) => favoritePalette._id === palette._id,
+      )
     ) {
       return;
     }
 
-    await AsyncStorage.setItem(
-      STORAGE_FAVORITE_PALETTES_KEY,
-      JSON.stringify(palettes.filter((pal) => pal._id !== palette._id)),
-    );
-  }
+    setUserEasyAccess((prev) => ({
+      ...prev,
+      favoritePalettes: prev.favoritePalettes.filter(
+        (pal) => pal._id !== palette._id,
+      ),
+    }));
 
-  async function getFavoritePalettes() {
-    const favoritePalettesJSON =
-      (await AsyncStorage.getItem(STORAGE_FAVORITE_PALETTES_KEY)) || '[]';
-    const palettes: TRecentPalettes = JSON.parse(favoritePalettesJSON);
-
-    setFavoritePalettes(palettes);
+    await saveEasyAccessStorage();
   }
 
   useEffect(() => {
@@ -208,13 +229,18 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
     }
   }, [shouldUpdatePalettes]);
 
+  useEffect(() => {
+    if (user._id) {
+      setUserEasyAccess((prev) => ({ ...prev, userId: user._id }));
+      getEasyAccessStorage();
+    }
+  }, [user]);
+
   return (
     <PaletteContext.Provider
       value={{
+        userEasyAccess,
         palettes,
-        recentColors,
-        recentPalettes,
-        favoritePalettes,
         getUserPalettes,
         shouldUpdatePalettes,
         setShouldUpdatePalettes,
@@ -223,12 +249,9 @@ export function PaletteProvider({ children }: PropsWithChildren<{}>) {
         deletePalette,
         updatePalette,
         addRecentColor,
-        getRecentColors,
         addRecentPalette,
-        getRecentPalettes,
         addFavoritePalette,
         removeFavoritePalette,
-        getFavoritePalettes,
       }}>
       {children}
     </PaletteContext.Provider>
