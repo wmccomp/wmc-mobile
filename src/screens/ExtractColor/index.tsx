@@ -2,9 +2,8 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import { Alert, View } from 'react-native';
 import ImageColors from 'react-native-image-colors';
-import { ImageColorsResult } from 'react-native-image-colors/lib/typescript/types';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-import styled from 'styled-components/native';
+import Toast from 'react-native-toast-message';
+
 import { IColor } from '../../@types';
 import { AddPalette } from '../../components/AddPalette';
 import { ColorCard } from '../../components/ColorCard';
@@ -51,7 +50,12 @@ export function ExtractColor() {
           .map((key) => createColor(result[key], key)),
       );
     } catch (error) {
-      Alert.alert('Erro', 'erro ao capturar as cores da imagem.');
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'erro ao capturar as cores da imagem.',
+        visibilityTime: 3000,
+      });
     }
   }
 
@@ -72,7 +76,12 @@ export function ExtractColor() {
         try {
           await updatePalette(palettes[palettes.length - 1]._id, { colors });
         } catch (error) {
-          Alert.alert('Erro', error.response.data.message);
+          Toast.show({
+            type: 'error',
+            text1: 'Erro',
+            text2: error.response.data.message,
+            visibilityTime: 3000,
+          });
         } finally {
           setLoading(false);
         }

@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { Load } from '../Load';
 import {
   Button,
@@ -35,7 +37,12 @@ export function PaletteOptions({
     try {
       await deletePalette(paletteId);
     } catch (error) {
-      Alert.alert('Erro', error.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: error.response.data.message,
+        visibilityTime: 3000,
+      });
     } finally {
       setLoading(false);
       onClose();
@@ -47,8 +54,19 @@ export function PaletteOptions({
 
     try {
       await updatePalette(paletteId, { name: paletteName });
+      Toast.show({
+        type: 'info',
+        text1: 'Alteração bem sucedida',
+        text2: 'Dados alterados com sucesso.',
+        visibilityTime: 2000,
+      });
     } catch (error) {
-      Alert.alert('Erro', error.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: error.response.data.message,
+        visibilityTime: 3000,
+      });
     } finally {
       setLoading(false);
       onClose();

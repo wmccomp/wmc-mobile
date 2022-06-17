@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { IColor } from '../../@types';
 import { AddPalette } from '../../components/AddPalette';
 import { ColorCard } from '../../components/ColorCard';
@@ -89,6 +91,15 @@ export function Home() {
       />
     );
   }
+
+  useEffect(() => {
+    Toast.show({
+      type: 'info',
+      text1: 'Bem vindo!',
+      text2: 'Seja bem vindo à sua galeria',
+      visibilityTime: 2000,
+    });
+  }, []);
 
   return (
     <>

@@ -1,6 +1,8 @@
 import CheckBox from 'expo-checkbox';
 import { useContext, useState } from 'react';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { wmcApi } from '../../api';
 import { LoginContext } from '../../context/auth';
 import { Load } from '../Load';
@@ -51,10 +53,21 @@ export function AddPalette({ onClose, visible }: IAddPaletteProps) {
         },
       });
 
+      Toast.show({
+        type: 'success',
+        text1: 'Sucesso',
+        text2: 'Paleta criada com sucesso!',
+        visibilityTime: 3000,
+      });
       setLoading(false);
       handleClose(response.status);
     } catch (error) {
-      Alert.alert('Erro', error.response.data.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: error.response.data.message,
+        visibilityTime: 3000,
+      });
       setLoading(false);
       handleClose();
     }
