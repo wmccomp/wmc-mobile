@@ -35,6 +35,8 @@ export function Register() {
   }
 
   async function handleRegister() {
+    setLoading(true);
+
     if (validateEmail(email) === false) {
       return Alert.alert('Digite um email válido!');
     }
@@ -63,7 +65,8 @@ export function Register() {
       })
       .catch((err) => {
         console.timeLog(err.response.message);
-      });
+      })
+      .finally(() => setLoading(false));
   }
 
   function displaySuccess() {
@@ -81,12 +84,14 @@ export function Register() {
           <Form>
             <Fields>
               <Input
+                editable={!loading}
                 placeholder="Nome"
                 defaultValue=""
                 value={username}
                 onChangeText={(value) => setUsername(value)}
               />
               <Input
+                editable={!loading}
                 placeholder="Email"
                 keyboardType="email-address"
                 defaultValue=""
@@ -94,6 +99,7 @@ export function Register() {
                 onChangeText={(value) => setEmail(value)}
               />
               <Input
+                editable={!loading}
                 secureTextEntry={true}
                 placeholder="Senha"
                 defaultValue=""
